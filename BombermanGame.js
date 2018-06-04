@@ -1,7 +1,7 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
 var firstRoundEnemies = [new SimpleEnemy(10, 0), new SimpleEnemy(10, 5), new SimpleEnemy(6, 9), new SimpleEnemy(0, 10)];
 
-var fieldMatrix = new FieldMatrix(
+var fieldMatrixMock = new FieldMatrix(
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
   createSecondRow(0, 1, 0, 1, 0, 0),
   createRow(0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1),
@@ -13,14 +13,17 @@ var fieldMatrix = new FieldMatrix(
   createRow(0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1),
   createSecondRow(0, 1, 1, 0, 0, 0),
   createRow(0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1),
-  100
+  10
 );
 
-function BombermanGame(field = fieldMatrix, enemies = firstRoundEnemies, bomberman = new Bomberman()) {
+function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), enemies = firstRoundEnemies) {
   this.field = field;
   this.bomberman = bomberman; // stores the bomberman, here only for first round!
   this.enemies = enemies; // array which stores the enemies that exist in this round
   this.bombs = [];
+  this.bomberman.size = this.field.tileSize;
+  this.bomberman.x = this.field.tileSize;
+  this.bomberman.y = this.field.tileSize;
 }
 
 /////////// Functions to control bomberman //////////////

@@ -3,7 +3,8 @@ var DIRECTION_ENUM = { NORTH: 1, EAST: 2, SOUTH: 3, WEST: 4 };
 function MovingElement() {}
 MovingElement.prototype.isFreeField = function() {};
 
-function Bomberman(startX = 0, startY = 0, speed = 5, size = 100, bombCount = 1, bombStrength = 1) {
+// size, startX and startY will automatically be set in BombermanGame constructor when used in the game
+function Bomberman(size = 700 / 13, startX = 700 / 13, startY = 100.13, speed = 5, bombCount = 1, bombStrength = 1) {
   this.x = startX;
   this.y = startY;
   this.speed = speed;

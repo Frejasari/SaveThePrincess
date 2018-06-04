@@ -5,16 +5,17 @@ var TILE = {
   BORDER: 3
 };
 
-function FieldMatrix(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, tileSize = 1) {
+function FieldMatrix(containerWidth, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11) {
   this.matrix = [createBorderRow(13), r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, createBorderRow(13)];
-  this.tileSize = tileSize;
+  this.tileSize = containerWidth / this.matrix.length;
 }
 FieldMatrix.prototype.getTileAt = function(x, y) {
-  return this.matrix[y + 1][x + 1];
+  return this.matrix[y][x];
 };
 
 FieldMatrix.prototype.getCurrentTileFromPosition = function(x, y) {
-  console.log("this coordinates: " + x + " y: " + y + " tileSize: " + this.tileSize);
+  console.log("this in getCurrentTileFromPosition: ", this);
+  console.log("getCurrentTileFromPosition coordinates: " + x + " y: " + y + " tileSize: " + this.tileSize);
   return new TileCoordinates(x / this.tileSize, y / this.tileSize);
 };
 
