@@ -36,7 +36,7 @@ BombermanGame.prototype.moveBomberman = function(direction) {
         console.log("move north!");
         this.bomberman.moveNorth();
       } else {
-        console.log("cant move!! theres a wall!");
+        this.bomberman.y = this.getNearestPositionNorth(this.bomberman);
       }
       break;
     case DIRECTION_ENUM.SOUTH:
@@ -44,20 +44,24 @@ BombermanGame.prototype.moveBomberman = function(direction) {
         this.bomberman.moveSouth();
         console.log("move south!");
       } else {
-        console.log("cant move south!");
+        this.bomberman.y = this.getNearestPositionSouth(this.bomberman);
       }
       break;
     case DIRECTION_ENUM.EAST:
       if (this.canMoveEast(this.bomberman)) {
         console.log("move east!");
         this.bomberman.moveEast();
-      } else console.log("cant move!!! There's a wall!");
+      } else {
+        this.bomberman.x = this.getNearestPositionEast(this.bomberman);
+      }
       break;
     case DIRECTION_ENUM.WEST:
       console.log("move west!");
       if (this.canMoveWest(this.bomberman)) {
         this.bomberman.moveWest();
-      } else console.log("cant move west!");
+      } else {
+        this.bomberman.x = this.getNearestPositionWest(this.bomberman);
+      }
       break;
     default:
       console.log("check your direction enum! No valid direction!");
@@ -144,4 +148,26 @@ BombermanGame.prototype.canMoveWest = function(character) {
 
 BombermanGame.prototype.getTolerance = function(character) {
   return character.speed / character.size;
+};
+
+BombermanGame.prototype.getNearestPositionNorth = function(character) {
+  var upperY = this.field.getCurrentTileIndexFromPosition(character.x, character.y + character.speed).y;
+  console.log("upperY ", upperY);
+  console.log("field.size ", this.field.tileSize);
+  return this.field.tileSize * upperY;
+};
+
+BombermanGame.prototype.getNearestPositionSouth = function(character) {
+  var lowerY = this.field.getCurrentTileIndexFromPosition(character.x, character.y - character.speed).y + 1;
+  return this.field.tileSize * lowerY;
+};
+
+BombermanGame.prototype.getNearestPositionEast = function(character) {
+  var upperX = this.field.getCurrentTileIndexFromPosition(character.x - character.speed, character.y).x + 1;
+  return this.field.tileSize * upperX;
+};
+
+BombermanGame.prototype.getNearestPositionWest = function(character) {
+  var lowerX = this.field.getCurrentTileIndexFromPosition(character.x + character.speed, character.y).x;
+  return this.field.tileSize * lowerX;
 };
