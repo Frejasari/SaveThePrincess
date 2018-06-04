@@ -69,11 +69,11 @@ BombermanGame.prototype.moveBomberman = function(direction) {
 BombermanGame.prototype.canMoveNorth = function(character) {
   var tolerance = this.getTolerance(character);
   console.log("CANMOVE NORTH, character: ", character);
-  var currTileStartCoord = this.field.getCurrentTileFromPosition(
+  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.size * tolerance,
     character.y + character.size
   );
-  var currTileEndCoord = this.field.getCurrentTileFromPosition(
+  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.size * (1 - tolerance),
     character.y - character.speed
   );
@@ -88,8 +88,11 @@ BombermanGame.prototype.canMoveNorth = function(character) {
 BombermanGame.prototype.canMoveSouth = function(character) {
   var tolerance = this.getTolerance(character);
   console.log("CANMOVE SOUTH, character: ", character);
-  var currTileStartCoord = this.field.getCurrentTileFromPosition(character.x + character.size * tolerance, character.y);
-  var currTileEndCoord = this.field.getCurrentTileFromPosition(
+  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
+    character.x + character.size * tolerance,
+    character.y
+  );
+  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.size * (1 - tolerance),
     character.y + character.speed + character.size
   );
@@ -104,8 +107,11 @@ BombermanGame.prototype.canMoveSouth = function(character) {
 BombermanGame.prototype.canMoveEast = function(character) {
   var tolerance = this.getTolerance(character);
   console.log("CANMOVE EAST, character: ", character);
-  var currTileStartCoord = this.field.getCurrentTileFromPosition(character.x, character.y + character.size * tolerance);
-  var currTileEndCoord = this.field.getCurrentTileFromPosition(
+  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
+    character.x,
+    character.y + character.size * tolerance
+  );
+  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.speed + character.size,
     character.y + character.size * (1 - tolerance)
   );
@@ -120,11 +126,11 @@ BombermanGame.prototype.canMoveEast = function(character) {
 BombermanGame.prototype.canMoveWest = function(character) {
   var tolerance = this.getTolerance(character);
   console.log("CANMOVE WEST, character: ", character);
-  var currTileStartCoord = this.field.getCurrentTileFromPosition(
+  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.size,
     character.y + character.size * tolerance
   );
-  var currTileEndCoord = this.field.getCurrentTileFromPosition(
+  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
     character.x - character.speed,
     character.y + character.size * (1 - tolerance)
   );

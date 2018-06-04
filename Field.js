@@ -27,13 +27,12 @@ FieldMatrix.prototype.getTileAt = function(x, y) {
   return this.matrix[y][x];
 };
 
-FieldMatrix.prototype.getCurrentTileFromPosition = function(x, y) {
-  console.log("this in getCurrentTileFromPosition: ", this);
+FieldMatrix.prototype.getCurrentTileIndexFromPosition = function(x, y) {
   console.log("getCurrentTileFromPosition coordinates: " + x + " y: " + y + " tileSize: " + this.tileSize);
-  return new TileCoordinates(x / this.tileSize, y / this.tileSize);
+  return new TileIndizes(x / this.tileSize, y / this.tileSize);
 };
 
-function TileCoordinates(x, y) {
+function TileIndizes(x, y) {
   this.x = Math.floor(x);
   this.y = Math.floor(y);
 }
