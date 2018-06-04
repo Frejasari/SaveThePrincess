@@ -2,7 +2,21 @@ var TILE = {
   NO: 0,
   WALL: 1,
   INV: 2,
-  BORDER: 3
+  BORDER: 3,
+  getClassName: function(number) {
+    switch (number) {
+      case TILE.NO:
+        return "no-wall";
+      case TILE.WALL:
+        return "wall";
+      case TILE.INV:
+        return "invincible";
+      case TILE.BORDER:
+        return "border";
+      default:
+        return "you made an mistake! This is not a valid tile-type!";
+    }
+  }
 };
 
 function FieldMatrix(containerWidth, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11) {
