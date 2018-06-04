@@ -22,6 +22,7 @@ $(document).ready(function() {
   );
   game = new BombermanGame(fieldMatrix);
   createGameBoard(game.field, fieldContainer);
+  setBombermanCSSProperties(game.bomberman);
 
   document.addEventListener("keydown", function(event) {
     console.log("key pressed! Event ", event);
@@ -61,6 +62,21 @@ function createGameBoard(fieldMatrix, fieldContainer) {
     }
   });
   setDimenstionOfSquareHTMLElement($(".game-tile"), fieldMatrix.tileSize);
+}
+
+// Functions to create Bomberman
+
+function setBombermanCSSProperties(bomberman) {
+  console.log("createBomberman, bomberman: ", bomberman);
+  setDimenstionOfSquareHTMLElement(bombermanHTML, bomberman.size);
+  setPositionOfBombermanHTML(bomberman);
+}
+
+function setPositionOfBombermanHTML(bomberman) {
+  console.log("setPositionOfBombermanHTML, bombermanX: ", bomberman.x);
+  console.log("setPositionOfBombermanHTML, bomberman: ", bomberman);
+  bombermanHTML.css("top", bomberman.x);
+  bombermanHTML.css("left", bomberman.y);
 }
 
 // general functions to set attributes for HTML elements
