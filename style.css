@@ -15,8 +15,17 @@
   width: 54px;
   height: 54px;
   position: absolute;
-  top: 54;
-  left: 54;
+  top: 54px;
+  left: 54px;
+}
+
+.simple-enemy {
+  background-color: blueviolet;
+  width: 54px;
+  height: 54px;
+  position: absolute;
+  top: 54px;
+  left: 54px;
 }
 
 .game-tile {

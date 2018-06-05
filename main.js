@@ -2,6 +2,7 @@
 
 var game;
 var bombermanHTML;
+var enemiesjQuery;
 
 $(document).ready(function() {
   bombermanHTML = $("#bomberman");
@@ -23,6 +24,7 @@ $(document).ready(function() {
   game = new BombermanGame(fieldMatrix);
   createGameBoard(game.field, fieldContainer);
   setBombermanCSSProperties(game.bomberman, bombermanHTML);
+  enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);
 
   document.addEventListener("keydown", function(event) {
     console.log("key pressed! Event ", event);
@@ -72,6 +74,22 @@ function setBombermanCSSProperties(bomberman, bombermanHTML) {
   setPositionOfjQueryCharacter(bombermanHTML, bomberman);
 }
 
+// Functions to create simple Enemies
+
+function createAndAppendSimpleEnemy(enemies, container) {
+  var jQueryEnemiesArray = [];
+  enemies.forEach(function(enemy, index) {
+    container.append(createSimpleEnemyHTML(enemy, index));
+    var jQueryEnemy = $("#enemy-" + index);
+    jQueryEnemiesArray.push(jQueryEnemy);
+    setDimensionOfSquarejQueryElement(jQueryEnemy, enemy.size);
+    setPositionOfjQueryCharacter(jQueryEnemy, enemy);
+  });
+  return jQueryEnemiesArray;
+}
+
+function createSimpleEnemyHTML(enemy, index) {
+  return "<div id='enemy-" + index + "' class='simple-enemy'</div>";
 }
 
 // general functions to set attributes for HTML elements
