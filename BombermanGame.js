@@ -79,6 +79,15 @@ BombermanGame.prototype.moveBomberman = function(direction) {
   }
 };
 
+BombermanGame.prototype.moveEnemy = function(enemy) {
+  if (!this.canMoveEnemy(enemy)) {
+    enemy.changeDirection();
+    this.moveEnemy(enemy);
+  } else {
+    enemy.move();
+  }
+};
+
 //////////// Check if moving in selected direction is possible ////////////
 
 BombermanGame.prototype.canMoveNorth = function(character) {
@@ -190,4 +199,20 @@ BombermanGame.prototype.getNearestPositionEast = function(character) {
 BombermanGame.prototype.getNearestPositionWest = function(character) {
   var lowerX = this.field.getCurrentTileIndexFromPosition(character.x + character.speed, character.y).x;
   return this.field.tileSize * lowerX;
+};
+
+BombermanGame.prototype.canMoveEnemy = function(enemy) {
+  console.log("canMoveEnemie, enemy direction: " + enemy.currentDirection);
+  console.log("canMoveEnemie, enemy x: " + enemy.x);
+  console.log("canMoveEnemie, enemy y: " + enemy.y);
+  switch (enemy.currentDirection) {
+    case DIRECTION_ENUM.NORTH:
+      return this.canMoveNorth(enemy);
+    case DIRECTION_ENUM.SOUTH:
+      return this.canMoveSouth(enemy);
+    case DIRECTION_ENUM.EAST:
+      return this.canMoveEast(enemy);
+    case DIRECTION_ENUM.WEST:
+      return this.canMoveWest(enemy);
+  }
 };

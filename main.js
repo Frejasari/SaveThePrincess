@@ -25,6 +25,18 @@ $(document).ready(function() {
   createGameBoard(game.field, fieldContainer);
   setBombermanCSSProperties(game.bomberman, bombermanHTML);
   enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);
+  animate();
+  function animate() {
+    moveEnemiesVisually();
+    requestAnimationFrame(animate);
+  }
+
+  function moveEnemiesVisually() {
+    game.enemies.forEach(function(enemy, index) {
+      game.moveEnemy(enemy);
+      setPositionOfjQueryCharacter(enemiesjQuery[index], enemy);
+    });
+  }
 
   document.addEventListener("keydown", function(event) {
     console.log("key pressed! Event ", event);
