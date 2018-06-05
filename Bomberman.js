@@ -59,13 +59,8 @@ Bomberman.prototype.move = function() {
   }
 };
 
-Bomberman.prototype.StartMoving = function(direction) {
-  this.isMoving = true;
+Bomberman.prototype.setDirection = function(direction) {
   this.currentDirection = direction;
-};
-
-Bomberman.prototype.stopMoving = function() {
-  this.isMoving = false;
 };
 
 Bomberman.prototype.igniteBomb = function(listener) {

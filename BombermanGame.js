@@ -39,43 +39,63 @@ function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), ene
 
 /////////// Functions to control bomberman //////////////
 
-BombermanGame.prototype.moveBomberman = function(direction) {
-  // if (this.canMove(this.bomberman, direction)) {
-  switch (direction) {
-    case DIRECTION_ENUM.NORTH:
-      if (this.canMoveNorth(this.bomberman)) {
-        console.log("move north!");
-        this.bomberman.moveNorth();
-      } else {
-        this.bomberman.y = this.getNearestPositionNorth(this.bomberman);
-      }
-      break;
-    case DIRECTION_ENUM.SOUTH:
-      if (this.canMoveSouth(this.bomberman)) {
-        this.bomberman.moveSouth();
-        console.log("move south!");
-      } else {
-        this.bomberman.y = this.getNearestPositionSouth(this.bomberman);
-      }
-      break;
-    case DIRECTION_ENUM.EAST:
-      if (this.canMoveEast(this.bomberman)) {
-        console.log("move east!");
-        this.bomberman.moveEast();
-      } else {
-        this.bomberman.x = this.getNearestPositionEast(this.bomberman);
-      }
-      break;
-    case DIRECTION_ENUM.WEST:
-      console.log("move west!");
-      if (this.canMoveWest(this.bomberman)) {
-        this.bomberman.moveWest();
-      } else {
-        this.bomberman.x = this.getNearestPositionWest(this.bomberman);
-      }
-      break;
-    default:
-      console.log("check your direction enum! No valid direction!");
+// BombermanGame.prototype.moveBomberman = function(direction) {
+//   // if (this.canMove(this.bomberman, direction)) {
+//   switch (direction) {
+//     case DIRECTION_ENUM.NORTH:
+//       if (this.canMoveNorth(this.bomberman)) {
+//         console.log("move north!");
+//         this.bomberman.moveNorth();
+//       } else {
+//         this.bomberman.y = this.getNearestPositionNorth(this.bomberman);
+//       }
+//       break;
+//     case DIRECTION_ENUM.SOUTH:
+//       if (this.canMoveSouth(this.bomberman)) {
+//         this.bomberman.moveSouth();
+//         console.log("move south!");
+//       } else {
+//         this.bomberman.y = this.getNearestPositionSouth(this.bomberman);
+//       }
+//       break;
+//     case DIRECTION_ENUM.EAST:
+//       if (this.canMoveEast(this.bomberman)) {
+//         console.log("move east!");
+//         this.bomberman.moveEast();
+//       } else {
+//         this.bomberman.x = this.getNearestPositionEast(this.bomberman);
+//       }
+//       break;
+//     case DIRECTION_ENUM.WEST:
+//       console.log("move west!");
+//       if (this.canMoveWest(this.bomberman)) {
+//         this.bomberman.moveWest();
+//       } else {
+//         this.bomberman.x = this.getNearestPositionWest(this.bomberman);
+//       }
+//       break;
+//     default:
+//       console.log("check your direction enum! No valid direction!");
+//   }
+// };
+
+BombermanGame.prototype.setBombermanDirection = function(direction) {
+  this.bomberman.setDirection(direction);
+};
+
+BombermanGame.prototype.stopMovingBomberman = function() {
+  this.bomberman.isMoving = false;
+};
+
+BombermanGame.prototype.startMovingBomberman = function() {
+  this.bomberman.isMoving = true;
+};
+
+BombermanGame.prototype.moveBomberman = function() {
+  if (this.canMove(this.bomberman)) {
+    this.bomberman.move();
+  } else {
+    console.log("cant move further in this direction!");
   }
 };
 

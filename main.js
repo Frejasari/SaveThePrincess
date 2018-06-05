@@ -35,10 +35,16 @@ $(document).ready(function() {
   // }, 8000);
   function animate() {
     moveEnemiesVisually();
+    if (game.bomberman.isMoving) {
+      moveBombermanVisually();
+    }
     requestAnimationFrame(animate);
   }
 
-  function moveBombermanVisually() {}
+  function moveBombermanVisually() {
+    game.moveBomberman();
+    setPositionOfjQueryCharacter(bombermanHTML, game.bomberman);
+  }
 
   function moveEnemiesVisually() {
     game.enemies.forEach(function(enemy, index) {
@@ -49,24 +55,37 @@ $(document).ready(function() {
 
   document.addEventListener("keydown", function(event) {
     console.log("key pressed! Event ", event);
+    game.startMovingBomberman();
     switch (event.key) {
       case "ArrowDown":
-        game.moveBomberman(DIRECTION_ENUM.SOUTH);
-        bombermanHTML.css("top", game.bomberman.y);
+        game.setBombermanDirection(DIRECTION_ENUM.SOUTH);
         break;
       case "ArrowUp":
-        game.moveBomberman(DIRECTION_ENUM.NORTH);
-        bombermanHTML.css("top", game.bomberman.y);
+        game.setBombermanDirection(DIRECTION_ENUM.NORTH);
         break;
       case "ArrowRight":
-        game.moveBomberman(DIRECTION_ENUM.EAST);
-        bombermanHTML.css("left", game.bomberman.x);
+        game.setBombermanDirection(DIRECTION_ENUM.EAST);
         break;
       case "ArrowLeft":
-        game.moveBomberman(DIRECTION_ENUM.WEST);
-        bombermanHTML.css("left", game.bomberman.x);
+        game.setBombermanDirection(DIRECTION_ENUM.WEST);
         break;
     }
+  });
+
+  document.addEventListener("keyup", function(event) {
+    console.log("key pressed! Event ", event);
+    switch (event.key) {
+      case "ArrowDown":
+        if (!game.bomberman.currentDirection === DIRECTION_ENUM.SOUTH) return;
+      case "ArrowUp":
+        if (!game.bomberman.currentDirection === DIRECTION_ENUM.NORTH) return;
+      case "ArrowRight":
+        if (!game.bomberman.currentDirection === DIRECTION_ENUM.EAST) return;
+      case "ArrowLeft":
+        if (!game.bomberman.currentDirection === DIRECTION_ENUM.WEST) return;
+        break;
+    }
+    game.stopMovingBomberman();
   });
 });
 
