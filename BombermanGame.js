@@ -108,6 +108,15 @@ BombermanGame.prototype.canMoveSouth = function(character) {
   );
 };
 
+// TODO REWORK?
+// BombermanGame.prototype.isNextStepInCurrentTile = function(coordinate, direction, character) {
+//   if (DIRECTION_ENUM.NORTH === direction || DIRECTION_ENUM.WEST === direction) {
+//     return coordinate % this.field.tileSize > charater.speed;
+//   } else {
+//     return coordinate % this.field.tileSize < characterSpeed;
+//   }
+// };
+
 BombermanGame.prototype.canMoveEast = function(character) {
   var tolerance = this.getTolerance(character);
   console.log("CANMOVE EAST, character: ", character);

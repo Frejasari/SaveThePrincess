@@ -13,6 +13,12 @@ function Bomberman(size = 700 / 13, startX = 700 / 13, startY = 100.13, speed = 
   this.bombStrength = bombStrength;
 }
 
+Bomberman.prototype.getMidX = function() {
+  return this.x + size / 2;
+};
+Bomberman.prototype.getMidY = function() {
+  return this.y + size / 2;
+};
 Bomberman.prototype.moveNorth = function() {
   this.y -= this.speed;
 };
