@@ -1,10 +1,11 @@
 // Simple Enemy
 
-function SimpleEnemy(startX, startY, speed = 1) {
+function SimpleEnemy(startX, startY, speed = 1, size) {
   this.x = startX;
   this.y = startY;
   this.currentDirection = getRandomDirection();
   this.speed = speed;
+  this.size = size;
 }
 
 SimpleEnemy.prototype.changeDirection = function() {

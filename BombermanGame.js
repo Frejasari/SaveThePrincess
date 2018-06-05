@@ -24,6 +24,9 @@ function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), ene
   this.bomberman.size = this.field.tileSize;
   this.bomberman.x = this.field.tileSize;
   this.bomberman.y = this.field.tileSize;
+  for (var i = 0; i < this.enemies.length; i++) {
+    this.enemies[i].size = this.field.tileSize;
+  }
 }
 
 /////////// Functions to control bomberman //////////////
