@@ -27,13 +27,19 @@ $(document).ready(function() {
   enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);
   animate();
 
+  var reqID;
+
   function animate() {
     moveEnemiesVisually();
     if (game.bomberman.isMoving) {
       moveBombermanVisually();
     }
-    requestAnimationFrame(animate);
+    reqID = requestAnimationFrame(animate);
   }
+
+  // setInterval(function() {
+  //   cancelAnimationFrame(reqID);
+  // }, 200);
 
   function moveBombermanVisually() {
     game.moveBomberman();

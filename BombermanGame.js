@@ -36,7 +36,6 @@ function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), ene
     enemy.x = enemy.x * this.field.tileSize;
     enemy.y = enemy.y * this.field.tileSize;
     enemy.speed = this.field.tileSize / enemy.speed;
-    // this.moveEnemy(enemy);
   }
 }
 
@@ -57,17 +56,21 @@ BombermanGame.prototype.startMovingBomberman = function() {
 BombermanGame.prototype.moveBomberman = function() {
   if (this.canMove(this.bomberman)) {
     this.bomberman.move();
-  } else {
-    console.log("cant move further in this direction!");
+  } else if (!this.isAtBorder(this.bomberman)) {
+    this.moveToNextBorder(this.bomberman);
+    // console.log("cant move further in this direction!");
   }
 };
 
 BombermanGame.prototype.moveEnemy = function(enemy) {
-  if (!this.canMove(enemy)) {
-    enemy.changeDirection();
-    this.moveEnemy(enemy);
-  } else {
+  if (this.canMove(enemy)) {
     enemy.move();
+  } else if (this.isAtBorder(enemy)) {
+    // console.log("cant move further in this direction! current direction: " + enemy.currentDirection);
+    enemy.changeDirection();
+  } else {
+    this.moveToNextBorder(enemy);
+    // enemy.changeDirection();
   }
 };
 
@@ -116,6 +119,7 @@ BombermanGame.prototype.canMoveSouth = function(character) {
 
 BombermanGame.prototype.canMoveEast = function(character) {
   var tolerance = this.getTolerance(character);
+  if (this.getNextBorder) var tolerance = this.getTolerance(character);
   var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
     character.x,
     character.y + character.size * tolerance
@@ -171,6 +175,10 @@ BombermanGame.prototype.getNearestPositionWest = function(character) {
 };
 
 BombermanGame.prototype.canMove = function(character) {
+  // if (this.getDistanceToNextBorder(character) > character.speed) {
+  //   console.log("getDistanceToNextBorder >= this.character.speed");
+  //   return true;
+  // }
   switch (character.currentDirection) {
     case DIRECTION_ENUM.NORTH:
       return this.canMoveNorth(character);
@@ -182,3 +190,50 @@ BombermanGame.prototype.canMove = function(character) {
       return this.canMoveWest(character);
   }
 };
+
+// TODO: does not work for too slow enemies! They get stuck in Nort or West direction!
+BombermanGame.prototype.isAtBorder = function(character) {
+  if (character.currentDirection === DIRECTION_ENUM.NORTH || character.currentDirection === DIRECTION_ENUM.SOUTH) {
+    return character.y % this.field.tileSize === 0;
+  } else return character.x % this.field.tileSize === 0;
+};
+
+BombermanGame.prototype.moveToNextBorder = function(character) {
+  switch (character.currentDirection) {
+    case DIRECTION_ENUM.NORTH:
+      character.y += character.y % this.field.tileSize;
+      break;
+    case DIRECTION_ENUM.SOUTH:
+      character.y += this.field.tileSize - (character.y % this.field.tileSize);
+      break;
+    case DIRECTION_ENUM.EAST:
+      character.x += this.field.tileSize - (character.x % this.field.tileSize);
+      break;
+    case DIRECTION_ENUM.WEST:
+      character.x += character.x % this.field.tileSize;
+      break;
+  }
+};
+
+// BombermanGame.prototype.getDistanceToNextBorder = function(character) {
+//   switch (character.currentDirection) {
+//     case DIRECTION_ENUM.NORTH:
+//       console.log("speed " + character.speed + " in NORTH");
+//       console.log("tileSize: " + this.field.tileSize);
+//       console.log("distance " + (character.y % this.field.tileSize));
+//       return character.y % this.field.tileSize;
+//       break;
+//     case DIRECTION_ENUM.SOUTH:
+//       console.log("speed of " + character.speedacter + " in SOUTH");
+//       console.log("tileSize: " + this.field.tileSize);
+//       console.log("distance: " + (character.y % this.field.tileSize));
+//       return character.y % this.field.tileSize;
+//       break;
+//     case DIRECTION_ENUM.EAST:
+//       return character.x % this.field.tileSize;
+//       break;
+//     case DIRECTION_ENUM.WEST:
+//       return character.x % this.field.tileSize;
+//       break;
+//   }
+// };

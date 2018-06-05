@@ -1,11 +1,12 @@
 // Simple Enemy
 
-function SimpleEnemy(startX, startY, speed = 1, size) {
+function SimpleEnemy(startX, startY, speed = 50, size) {
   this.x = startX;
   this.y = startY;
   this.currentDirection = getRandomDirection();
   this.speed = speed;
   this.size = size;
+  this.isAtBorder = true;
 }
 
 SimpleEnemy.prototype.changeDirection = function() {
