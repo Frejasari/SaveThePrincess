@@ -1,10 +1,16 @@
 DYNABLASTER
+
+GAME ELEMENTS: 
+
 - InvincibleBlock
 - Block
+- Portal
+
 - Bomberman
+- Speed
+- Position
+- Bomb
+- Bomb Flame // bombStrength
+
 - Slug // Enemy Lvl1
 - Slime // Enemy Lvl2 
-- Bomb
-- BombFlame
-- Portal
-- 
