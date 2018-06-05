@@ -2,7 +2,7 @@
 var firstRoundEnemies = [
   new SimpleEnemy(11, 1),
   new SimpleEnemy(11, 6),
-  new SimpleEnemy(7, 10),
+  new SimpleEnemy(4, 11),
   new SimpleEnemy(1, 11)
 ];
 
