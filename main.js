@@ -61,27 +61,27 @@ function createGameBoard(fieldMatrix, fieldContainer) {
       fieldContainer.append(createTile(row, col, TILE.getClassName(element[col])));
     }
   });
-  setDimenstionOfSquareHTMLElement($(".game-tile"), fieldMatrix.tileSize);
+  setDimensionOfSquarejQueryElement($(".game-tile"), fieldMatrix.tileSize);
 }
 
 // Functions to create Bomberman
 
 function setBombermanCSSProperties(bomberman, bombermanHTML) {
   console.log("createBomberman, bomberman: ", bomberman);
-  setDimenstionOfSquareHTMLElement(bombermanHTML, bomberman.size);
-  setPositionOfHTMLCharacter(bomberman, bombermanHTML);
+  setDimensionOfSquarejQueryElement(bombermanHTML, bomberman.size);
+  setPositionOfjQueryCharacter(bombermanHTML, bomberman);
 }
 
 }
 
 // general functions to set attributes for HTML elements
-function setDimenstionOfSquareHTMLElement(htmlElement, dimension) {
-  htmlElement.css("width", dimension);
-  htmlElement.css("height", dimension);
+
+function setDimensionOfSquarejQueryElement(jQueryElement, dimension) {
+  jQueryElement.css("width", dimension);
+  jQueryElement.css("height", dimension);
 }
-function setPositionOfHTMLCharacter(character, htmlCharacter) {
-  console.log("setPositionHTMLCharacter, bombermanX: ", character.x);
-  console.log("setPositionHTMLCharacter, bomberman: ", character);
-  htmlCharacter.css("top", character.x);
-  htmlCharacter.css("left", character.y);
+
+function setPositionOfjQueryCharacter(jQueryCharacter, character) {
+  jQueryCharacter.css("top", character.y);
+  jQueryCharacter.css("left", character.x);
 }
