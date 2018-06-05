@@ -21,7 +21,7 @@ var TILE = {
 
 function FieldMatrix(containerWidth, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11) {
   this.matrix = [createBorderRow(13), r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, createBorderRow(13)];
-  this.tileSize = containerWidth / this.matrix.length;
+  this.tileSize = Math.floor(containerWidth / this.matrix.length);
 }
 FieldMatrix.prototype.getTileAt = function(x, y) {
   return this.matrix[y][x];

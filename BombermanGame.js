@@ -29,11 +29,14 @@ function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), ene
   this.bomberman.size = this.field.tileSize;
   this.bomberman.x = this.field.tileSize;
   this.bomberman.y = this.field.tileSize;
+  this.bomberman.speed = this.field.tileSize / this.bomberman.speed;
   for (var i = 0; i < this.enemies.length; i++) {
     var enemy = this.enemies[i];
     enemy.size = this.field.tileSize;
     enemy.x = enemy.x * this.field.tileSize;
     enemy.y = enemy.y * this.field.tileSize;
+    enemy.speed = this.field.tileSize / enemy.speed;
+    // this.moveEnemy(enemy);
   }
 }
 
