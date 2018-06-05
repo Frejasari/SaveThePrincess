@@ -26,13 +26,7 @@ $(document).ready(function() {
   setBombermanCSSProperties(game.bomberman, bombermanHTML);
   enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);
   animate();
-  // var intervalId = window.setInterval(function() {
-  //   animate();
-  // }, 60);
 
-  // window.setTimeout(function() {
-  //   window.clearInterval(intervalId);
-  // }, 8000);
   function animate() {
     moveEnemiesVisually();
     if (game.bomberman.isMoving) {
@@ -54,7 +48,6 @@ $(document).ready(function() {
   }
 
   document.addEventListener("keydown", function(event) {
-    console.log("key pressed! Event ", event);
     game.startMovingBomberman();
     switch (event.key) {
       case "ArrowDown":
@@ -73,7 +66,6 @@ $(document).ready(function() {
   });
 
   document.addEventListener("keyup", function(event) {
-    console.log("key pressed! Event ", event);
     switch (event.key) {
       case "ArrowDown":
         if (!game.bomberman.currentDirection === DIRECTION_ENUM.SOUTH) return;

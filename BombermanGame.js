@@ -42,7 +42,6 @@ function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), ene
 
 /////////// Functions to control bomberman //////////////
 
-
 BombermanGame.prototype.setBombermanDirection = function(direction) {
   this.bomberman.setDirection(direction);
 };
@@ -76,7 +75,6 @@ BombermanGame.prototype.moveEnemy = function(enemy) {
 
 BombermanGame.prototype.canMoveNorth = function(character) {
   var tolerance = this.getTolerance(character);
-  console.log("CANMOVE NORTH, character: ", character);
   var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.size * tolerance,
     character.y + character.size
@@ -85,8 +83,6 @@ BombermanGame.prototype.canMoveNorth = function(character) {
     character.x + character.size * (1 - tolerance),
     character.y - character.speed
   );
-  console.log("NORTH currentStartCoord: ", currTileStartCoord);
-  console.log("NORTH currentEndCoord: ", currTileEndCoord);
   return (
     currTileStartCoord.x === currTileEndCoord.x &&
     this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
@@ -95,7 +91,6 @@ BombermanGame.prototype.canMoveNorth = function(character) {
 
 BombermanGame.prototype.canMoveSouth = function(character) {
   var tolerance = this.getTolerance(character);
-  console.log("CANMOVE SOUTH, character: ", character);
   var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.size * tolerance,
     character.y
@@ -104,8 +99,6 @@ BombermanGame.prototype.canMoveSouth = function(character) {
     character.x + character.size * (1 - tolerance),
     character.y + character.speed + character.size
   );
-  console.log("SOUTH currentStartCoord: ", currTileStartCoord);
-  console.log("SOUTH currentEndCoord: ", currTileEndCoord);
   return (
     currTileStartCoord.x === currTileEndCoord.x &&
     this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
@@ -123,7 +116,6 @@ BombermanGame.prototype.canMoveSouth = function(character) {
 
 BombermanGame.prototype.canMoveEast = function(character) {
   var tolerance = this.getTolerance(character);
-  console.log("CANMOVE EAST, character: ", character);
   var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
     character.x,
     character.y + character.size * tolerance
@@ -132,8 +124,6 @@ BombermanGame.prototype.canMoveEast = function(character) {
     character.x + character.speed + character.size,
     character.y + character.size * (1 - tolerance)
   );
-  console.log("EAST currentStartCoord: ", currTileStartCoord);
-  console.log("EAST currentEndCoord: ", currTileEndCoord);
   return (
     currTileStartCoord.y === currTileEndCoord.y &&
     this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
@@ -142,7 +132,6 @@ BombermanGame.prototype.canMoveEast = function(character) {
 
 BombermanGame.prototype.canMoveWest = function(character) {
   var tolerance = this.getTolerance(character);
-  console.log("CANMOVE WEST, character: ", character);
   var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
     character.x + character.size,
     character.y + character.size * tolerance
@@ -151,8 +140,6 @@ BombermanGame.prototype.canMoveWest = function(character) {
     character.x - character.speed,
     character.y + character.size * (1 - tolerance)
   );
-  console.log("WEST currentStartCoord: ", currTileStartCoord);
-  console.log("WEST currentEndCoord: ", currTileEndCoord);
   return (
     currTileStartCoord.y === currTileEndCoord.y &&
     this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
@@ -165,8 +152,6 @@ BombermanGame.prototype.getTolerance = function(character) {
 
 BombermanGame.prototype.getNearestPositionNorth = function(character) {
   var upperY = this.field.getCurrentTileIndexFromPosition(character.x, character.y + character.speed).y;
-  console.log("upperY ", upperY);
-  console.log("field.size ", this.field.tileSize);
   return this.field.tileSize * upperY;
 };
 
@@ -186,9 +171,6 @@ BombermanGame.prototype.getNearestPositionWest = function(character) {
 };
 
 BombermanGame.prototype.canMove = function(character) {
-  console.log("canMoveEnemie, enemy direction: " + character.currentDirection);
-  console.log("canMoveEnemie, enemy x: " + character.x);
-  console.log("canMoveEnemie, enemy y: " + character.y);
   switch (character.currentDirection) {
     case DIRECTION_ENUM.NORTH:
       return this.canMoveNorth(character);

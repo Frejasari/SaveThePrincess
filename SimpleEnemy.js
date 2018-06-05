@@ -30,7 +30,6 @@ SimpleEnemy.prototype.move = function() {
 // TODO: Rework this function to not choose the same direction again!
 function getRandomDirection() {
   var randomNumber = Math.floor(Math.random() * 4);
-  console.log("getRandomDirection!: ", randomNumber);
   switch (randomNumber) {
     case 0:
       return DIRECTION_ENUM.NORTH;

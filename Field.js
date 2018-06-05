@@ -28,7 +28,6 @@ FieldMatrix.prototype.getTileAt = function(x, y) {
 };
 
 FieldMatrix.prototype.getCurrentTileIndexFromPosition = function(x, y) {
-  console.log("getCurrentTileFromPosition coordinates: " + x + " y: " + y + " tileSize: " + this.tileSize);
   return new TileIndizes(x / this.tileSize, y / this.tileSize);
 };
 
