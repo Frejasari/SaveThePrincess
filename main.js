@@ -26,10 +26,19 @@ $(document).ready(function() {
   setBombermanCSSProperties(game.bomberman, bombermanHTML);
   enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);
   animate();
+  // var intervalId = window.setInterval(function() {
+  //   animate();
+  // }, 60);
+
+  // window.setTimeout(function() {
+  //   window.clearInterval(intervalId);
+  // }, 8000);
   function animate() {
     moveEnemiesVisually();
     requestAnimationFrame(animate);
   }
+
+  function moveBombermanVisually() {}
 
   function moveEnemiesVisually() {
     game.enemies.forEach(function(enemy, index) {

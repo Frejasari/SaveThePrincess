@@ -11,6 +11,8 @@ function Bomberman(size = 700 / 13, startX = 700 / 13, startY = 100.13, speed = 
   this.size = size;
   this.bombCount = bombCount;
   this.bombStrength = bombStrength;
+  this.isMoving = false;
+  this.currentDirection = DIRECTION_ENUM.SOUTH;
 }
 
 Bomberman.prototype.getMidX = function() {
@@ -19,20 +21,51 @@ Bomberman.prototype.getMidX = function() {
 Bomberman.prototype.getMidY = function() {
   return this.y + size / 2;
 };
+
 Bomberman.prototype.moveNorth = function() {
+  this.isMoving = true;
+  this.currentDirection = DIRECTION_ENUM.NORTH;
   this.y -= this.speed;
 };
 
 Bomberman.prototype.moveEast = function() {
+  this.isMoving = true;
+  this.currentDirection = DIRECTION_ENUM.EAST;
   this.x += this.speed;
 };
 
 Bomberman.prototype.moveSouth = function() {
+  this.isMoving = true;
   this.y += this.speed;
 };
 
 Bomberman.prototype.moveWest = function() {
+  this.isMoving = true;
   this.x -= this.speed;
+};
+
+Bomberman.prototype.move = function() {
+  switch (this.currentDirection) {
+    case DIRECTION_ENUM.NORTH:
+      return (this.y -= this.speed);
+    case DIRECTION_ENUM.EAST:
+      return (this.x += this.speed);
+    case DIRECTION_ENUM.SOUTH:
+      return (this.y += this.speed);
+    case DIRECTION_ENUM.WEST:
+      return (this.x -= this.speed);
+    default:
+      console.log("check your direction enum! No valid direction!");
+  }
+};
+
+Bomberman.prototype.StartMoving = function(direction) {
+  this.isMoving = true;
+  this.currentDirection = direction;
+};
+
+Bomberman.prototype.stopMoving = function() {
+  this.isMoving = false;
 };
 
 Bomberman.prototype.igniteBomb = function(listener) {
