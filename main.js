@@ -4,6 +4,22 @@ var game;
 var bombermanHTML;
 var enemiesjQuery;
 var bombListener = {
+  onBombExplosion: function(x, y) {
+    var jQueryElement = $("#" + x + "-" + y);
+    jQueryElement.addClass("bomb-explosion");
+    setTimeout(function() {
+      jQueryElement
+        .removeClass("wall")
+        .removeClass("bomb-explosion")
+        .removeClass("bomb")
+        .addClass("no-wall");
+    }, 1000);
+  },
+  onBombIgnition: function(x, y) {
+    var jQueryElement = $("#" + x + "-" + y);
+    jQueryElement.addClass("bomb");
+    console.log("onBombIgnition in game.main", x, y);
+  }
 };
 
 $(document).ready(function() {
@@ -91,6 +107,10 @@ $(document).ready(function() {
         if (!game.bomberman.currentDirection === DIRECTION_ENUM.WEST) return;
         game.stopMovingBomberman();
         break;
+      case "b":
+        game.igniteBomb(bombListener);
+        console.log("event: " + event.key);
+      // default:
     }
   });
 });

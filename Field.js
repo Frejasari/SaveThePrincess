@@ -16,6 +16,29 @@ var TILE = {
       default:
         return "you made an mistake! This is not a valid tile-type!";
     }
+  },
+  explode: function(number) {
+    switch (number) {
+      case TILE.NO:
+      case TILE.WALL:
+        return TILE.NO;
+      case TILE.INV:
+        return TILE.INV;
+      case TILE.BORDER:
+        return TILE.BORDER;
+      default:
+        return "you made an mistake! This is not a valid tile-type!";
+    }
+  },
+  isInvincible: function(number) {
+    switch (number) {
+      case TILE.NO:
+      case TILE.WALL:
+        console.log("TILE_NO, TILE_WALL");
+        return false;
+      default:
+        return true;
+    }
   }
 };
 
@@ -46,6 +69,7 @@ function Coordinates(x, y) {
   this.x = x;
   this.y = y;
 }
+
 function TileIndizes(x, y) {
   this.x = Math.floor(x);
   this.y = Math.floor(y);

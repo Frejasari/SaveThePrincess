@@ -66,8 +66,14 @@ Bomberman.prototype.setDirection = function(direction) {
 
 Bomberman.prototype.igniteBomb = function(bombMidX, bombMidY, listener) {
   if (this.bombCount > this.currentBombs.length) {
-    return new Bomb(bombMidX, bombMidY, this.bombStrength, listener);
+    var newBomb = new Bomb(bombMidX, bombMidY, this.bombStrength, this.size, [this, listener]);
+    this.currentBombs.push(newBomb);
   } else console.log("you can only have " + this.bombCount + " bombs!");
+};
+
+Bomberman.prototype.onBombExplosion = function(bomb) {
+  console.log("explosion!!!! in bomberman!");
+  this.currentBombs.shift();
 };
 
 Bomberman.prototype.isInBombRadius = function(bomb) {
@@ -76,16 +82,30 @@ Bomberman.prototype.isInBombRadius = function(bomb) {
 
 // BOMB
 
-function Bomb(midX, midY, bombRange = 1, size, listener) {
+function Bomb(midX, midY, bombRange = 1, size, listeners) {
   this.size = size;
   this.x = midX - (1 / 2) * this.size;
   this.y = midY - (1 / 2) * this.size;
   this.bombRange = bombRange;
   this.fuseTime = 3;
-  setTimeout(function() {
-    listener.bombExplosion();
-    console.log("explosion!!!!");
-  }, 3000);
+  this.listeners = listeners;
+  this.setExplosion();
 }
 
-Bomb.prototype.explode = function() {};
+// make superclass for characters!
+Bomb.prototype.getMidX = function() {
+  return this.x + this.size / 2;
+};
+
+Bomb.prototype.getMidY = function() {
+  return this.y + this.size / 2;
+};
+
+Bomb.prototype.setExplosion = function() {
+  var that = this;
+  setTimeout(function() {
+    that.listeners.forEach(function(element) {
+      if (element) element.onBombExplosion(that);
+    });
+  }, 3000);
+};

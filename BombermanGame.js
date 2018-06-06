@@ -243,3 +243,33 @@ BombermanGame.prototype.moveToNextBorder = function(character) {
 //       break;
 //   }
 // };
+
+////// Functions to set and ignite a bomb
+
+BombermanGame.prototype.igniteBomb = function() {
+  var tileCoordinates = this.field.getCurrentTileIndexFromPosition(this.bomberman.getMidX(), this.bomberman.getMidY());
+  var coordinates = this.field.getMidCoordinatesFromTile(tileCoordinates);
+  this.bomberman.igniteBomb(coordinates.x, coordinates.y, this);
+  this.bombListener.onBombIgnition(tileCoordinates.x, tileCoordinates.y);
+};
+
+BombermanGame.prototype.onBombExplosion = function(bomb) {
+  var bombExplosionTileIndizes = this.field.getCurrentTileIndexFromPosition(bomb.getMidX(), bomb.getMidY());
+  var bombX = bombExplosionTileIndizes.x;
+  var bombY = bombExplosionTileIndizes.y;
+  var bombRange = bomb.bombRange;
+  for (var i = -bomb.bombRange; i <= bomb.bombRange; i++) {
+    var tile1 = this.field.matrix[bombY][bombX + i];
+    if (!TILE.isInvincible(tile1)) {
+      tile1 = TILE.explode(tile1);
+      this.field.matrix[bombY][bombX + i] = tile1;
+      this.bombListener.onBombExplosion(bombX + i, bombY);
+    }
+    var tile2 = this.field.matrix[bombY + i][bombX];
+    if (!TILE.isInvincible(tile2)) {
+      tile2 = TILE.explode(tile2);
+      this.field.matrix[bombY + i][bombX] = tile2;
+      this.bombListener.onBombExplosion(bombX, bombY + i);
+    }
+  }
+};
