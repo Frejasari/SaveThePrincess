@@ -24,7 +24,7 @@
   width: 54px;
   height: 54px;
   position: absolute;
-  top: 54px;
+  top: 70px;
   left: 54px;
 }
 
@@ -49,4 +49,12 @@
 
 .border {
   background-color: #20282b;
+}
+
+.bomb-explosion {
+  background-color: orangered;
+}
+
+.bomb {
+  background-color: black;
 }
