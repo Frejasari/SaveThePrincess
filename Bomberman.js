@@ -17,10 +17,10 @@ function Bomberman(size = 700 / 13, startX = 700 / 13, startY = 100.13, speed = 
 }
 
 Bomberman.prototype.getMidX = function() {
-  return this.x + size / 2;
+  return this.x + this.size / 2;
 };
 Bomberman.prototype.getMidY = function() {
-  return this.y + size / 2;
+  return this.y + this.size / 2;
 };
 
 Bomberman.prototype.moveNorth = function() {
@@ -78,8 +78,8 @@ Bomberman.prototype.isInBombRadius = function(bomb) {
 
 function Bomb(midX, midY, bombRange = 1, size, listener) {
   this.size = size;
-  this.x = midX + (1 / 2) * this.size;
-  this.y = midY + (1 / 2) * this.size;
+  this.x = midX - (1 / 2) * this.size;
+  this.y = midY - (1 / 2) * this.size;
   this.bombRange = bombRange;
   this.fuseTime = 3;
   setTimeout(function() {
