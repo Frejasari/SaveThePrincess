@@ -1,10 +1,5 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
-var firstRoundEnemies = [
-  new SimpleEnemy(11, 1),
-  new SimpleEnemy(11, 6),
-  new SimpleEnemy(4, 11),
-  new SimpleEnemy(1, 11)
-];
+var firstRoundEnemies = [new SimpleEnemy(11, 1), new SimpleEnemy(11, 6), new SimpleEnemy(4, 11), new SimpleEnemy(1, 5)];
 
 var fieldMatrixMock = new FieldMatrix(
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
@@ -71,6 +66,9 @@ BombermanGame.prototype.moveBomberman = function() {
 BombermanGame.prototype.moveEnemy = function(enemy) {
   if (this.canMove(enemy)) {
     enemy.move();
+    if (this.isCollusionOfCharacters(enemy, this.bomberman)) {
+      console.log("is collusion!");
+    }
   } else if (this.isAtBorder(enemy)) {
     // console.log("cant move further in this direction! current direction: " + enemy.currentDirection);
     enemy.changeDirection();
@@ -277,4 +275,14 @@ BombermanGame.prototype.onBombExplosion = function(bomb) {
       this.bombListener.onBombExplosion(bombX, bombY + i);
     }
   }
+};
+
+// detect collision between 2 characters
+
+BombermanGame.prototype.isCollusionOfCharacters = function(char1, char2) {
+  var minDistance = char1.size / 2 + char2.size / 2;
+  return (
+    Math.abs(char1.getMidX() - char2.getMidX()) < minDistance &&
+    Math.abs(char1.getMidY() - char2.getMidY()) < minDistance
+  );
 };
