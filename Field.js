@@ -3,6 +3,7 @@ var TILE = {
   WALL: 1,
   INV: 2,
   BORDER: 3,
+  BOMB: 4,
   getClassName: function(number) {
     switch (number) {
       case TILE.NO:
@@ -21,6 +22,7 @@ var TILE = {
     switch (number) {
       case TILE.NO:
       case TILE.WALL:
+      case BOMB:
         return TILE.NO;
       case TILE.INV:
         return TILE.INV;

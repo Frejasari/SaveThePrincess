@@ -256,6 +256,7 @@ BombermanGame.prototype.igniteBomb = function() {
     var coordinates = this.field.getMidCoordinatesFromTile(tileCoordinates);
     this.bomberman.igniteBomb(coordinates.x, coordinates.y, this);
     this.bombListener.onBombIgnition(tileCoordinates.x, tileCoordinates.y);
+    this.field.replaceTileAt(tileCoordinates.x, tileCoordinates.y, TILE.BOMB);
   }
 };
 
@@ -264,6 +265,7 @@ BombermanGame.prototype.onBombExplosion = function(bomb) {
   var bombX = bombExplosionTileIndizes.x;
   var bombY = bombExplosionTileIndizes.y;
   var bombRange = bomb.bombRange;
+  this.field.replaceTileAt(bombX, bombY, TILE.NO);
   for (var i = -bomb.bombRange; i <= bomb.bombRange; i++) {
     var tile1 = this.field.matrix[bombY][bombX + i];
     if (!TILE.isInvincible(tile1)) {
