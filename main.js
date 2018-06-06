@@ -89,8 +89,8 @@ $(document).ready(function() {
 
 // Functions to create the tiles of the game
 
-function createTile(row, col, elementType) {
-  var string = "<div id='" + row.toString() + "-" + col.toString() + "' class='game-tile " + elementType + "'</div>";
+function createTile(x, y, elementType) {
+  var string = "<div id='" + x.toString() + "-" + y.toString() + "' class='game-tile " + elementType + "'</div>";
   return string;
 }
 
@@ -98,7 +98,7 @@ function createGameBoard(fieldMatrix, fieldContainer) {
   var htmlString = "";
   fieldMatrix.matrix.forEach(function(element, row) {
     for (var col = 0; col < element.length; col++) {
-      fieldContainer.append(createTile(row, col, TILE.getClassName(element[col])));
+      fieldContainer.append(createTile(col, row, TILE.getClassName(element[col])));
     }
   });
   setDimensionOfSquarejQueryElement($(".game-tile"), fieldMatrix.tileSize);
