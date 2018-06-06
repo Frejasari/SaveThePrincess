@@ -73,11 +73,9 @@ BombermanGame.prototype.moveEnemy = function(enemy) {
       this.isLost = true;
     }
   } else if (this.isAtBorder(enemy)) {
-    // console.log("cant move further in this direction! current direction: " + enemy.currentDirection);
     enemy.changeDirection();
   } else {
     this.moveToNextBorder(enemy);
-    // enemy.changeDirection();
   }
 };
 

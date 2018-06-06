@@ -57,9 +57,10 @@ $(document).ready(function() {
     }
   }
 
-  // setInterval(function() {
-  //   animate();
-  // }, 60);
+  // setTimeout(function() {
+  //   // animate();
+  //   // window.cancelAnimationFrame(animationFrameId);
+  // }, 1000);
 
   function moveBombermanVisually() {
     game.moveBomberman();
