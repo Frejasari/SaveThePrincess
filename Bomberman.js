@@ -11,6 +11,7 @@ function Bomberman(size = 700 / 13, startX = 700 / 13, startY = 100.13, speed = 
   this.size = size;
   this.bombCount = bombCount;
   this.bombStrength = bombStrength;
+  this.currentBombs = [];
   this.isMoving = false;
   this.currentDirection = DIRECTION_ENUM.SOUTH;
 }
@@ -63,19 +64,22 @@ Bomberman.prototype.setDirection = function(direction) {
   this.currentDirection = direction;
 };
 
-Bomberman.prototype.igniteBomb = function(listener) {
-  return new Bomb(this.x, this.y, this.bombStrength, listener);
+Bomberman.prototype.igniteBomb = function(bombMidX, bombMidY, listener) {
+  if (this.bombCount > this.currentBombs.length) {
+    return new Bomb(bombMidX, bombMidY, this.bombStrength, listener);
+  } else console.log("you can only have " + this.bombCount + " bombs!");
 };
 
 Bomberman.prototype.isInBombRadius = function(bomb) {
-  return this.x - bomb.x > bombRange && this.y - bomb.y > bombRange;
+  return this.x - bomb.x > bomb.bombRange && this.y - bomb.y > bomb.bombRange;
 };
 
 // BOMB
 
-function Bomb(x, y, bombRange = 1, listener) {
-  this.x = x;
-  this.y = y;
+function Bomb(midX, midY, bombRange = 1, size, listener) {
+  this.size = size;
+  this.x = midX + (1 / 2) * this.size;
+  this.y = midY + (1 / 2) * this.size;
   this.bombRange = bombRange;
   this.fuseTime = 3;
   setTimeout(function() {
