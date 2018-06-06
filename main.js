@@ -3,6 +3,8 @@
 var game;
 var bombermanHTML;
 var enemiesjQuery;
+var bombListener = {
+};
 
 $(document).ready(function() {
   bombermanHTML = $("#bomberman");
@@ -21,7 +23,7 @@ $(document).ready(function() {
     createSecondRow(0, 1, 1, 0, 0, 0),
     createRow(0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1)
   );
-  game = new BombermanGame(fieldMatrix);
+  game = new BombermanGame(bombListener, fieldMatrix);
   createGameBoard(game.field, fieldContainer);
   setBombermanCSSProperties(game.bomberman, bombermanHTML);
   enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);

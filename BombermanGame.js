@@ -21,7 +21,12 @@ var fieldMatrixMock = new FieldMatrix(
   10
 );
 
-function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), enemies = firstRoundEnemies) {
+function BombermanGame(
+  bombListener,
+  field = fieldMatrixMock,
+  bomberman = new Bomberman(),
+  enemies = firstRoundEnemies
+) {
   this.field = field;
   this.bomberman = bomberman; // stores the bomberman, here only for first round!
   this.enemies = enemies; // array which stores the enemies that exist in this round
@@ -37,6 +42,7 @@ function BombermanGame(field = fieldMatrixMock, bomberman = new Bomberman(), ene
     enemy.y = enemy.y * this.field.tileSize;
     enemy.speed = this.field.tileSize / enemy.speed;
   }
+  this.bombListener = bombListener;
 }
 
 /////////// Functions to control bomberman //////////////
