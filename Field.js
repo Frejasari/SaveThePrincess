@@ -49,6 +49,9 @@ function FieldMatrix(containerWidth, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r1
 FieldMatrix.prototype.getTileAt = function(x, y) {
   return this.matrix[y][x];
 };
+FieldMatrix.prototype.replaceTileAt = function(x, y, newValue) {
+  this.matrix[y][x] = newValue;
+};
 
 FieldMatrix.prototype.getTileFromIndizesAt = function(tileIndizes) {
   return this.matrix[tileIndizes.y][tileIndizes.x];

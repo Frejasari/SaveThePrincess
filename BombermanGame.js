@@ -268,13 +268,16 @@ BombermanGame.prototype.onBombExplosion = function(bomb) {
     var tile1 = this.field.matrix[bombY][bombX + i];
     if (!TILE.isInvincible(tile1)) {
       tile1 = TILE.explode(tile1);
-      this.field.matrix[bombY][bombX + i] = tile1;
+      this.field.replaceTileAt(bombX + i, bombY, tile1);
+
+      // this.field.matrix[bombY][bombX + i] = tile1;
       this.bombListener.onBombExplosion(bombX + i, bombY);
     }
     var tile2 = this.field.matrix[bombY + i][bombX];
     if (!TILE.isInvincible(tile2)) {
       tile2 = TILE.explode(tile2);
-      this.field.matrix[bombY + i][bombX] = tile2;
+      this.field.replaceTileAt(bombX, bombY + i, tile2);
+      // this.field.matrix[bombY + i][bombX] = tile2;
       this.bombListener.onBombExplosion(bombX, bombY + i);
     }
   }
