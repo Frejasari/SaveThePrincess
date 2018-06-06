@@ -21,7 +21,7 @@ $(document).ready(function() {
     createSecondRow(0, 1, 0, 1, 0, 1),
     createRow(0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1),
     createSecondRow(0, 1, 1, 0, 0, 0),
-    createRow(0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1)
+    createRow(0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
   );
   game = new BombermanGame(bombListener, fieldMatrix);
   createGameBoard(game.field, fieldContainer);
@@ -40,8 +40,8 @@ $(document).ready(function() {
   }
 
   // setInterval(function() {
-  //   cancelAnimationFrame(reqID);
-  // }, 200);
+  //   animate();
+  // }, 60);
 
   function moveBombermanVisually() {
     game.moveBomberman();
@@ -56,18 +56,21 @@ $(document).ready(function() {
   }
 
   document.addEventListener("keydown", function(event) {
-    game.startMovingBomberman();
     switch (event.key) {
       case "ArrowDown":
+        game.startMovingBomberman();
         game.setBombermanDirection(DIRECTION_ENUM.SOUTH);
         break;
       case "ArrowUp":
+        game.startMovingBomberman();
         game.setBombermanDirection(DIRECTION_ENUM.NORTH);
         break;
       case "ArrowRight":
+        game.startMovingBomberman();
         game.setBombermanDirection(DIRECTION_ENUM.EAST);
         break;
       case "ArrowLeft":
+        game.startMovingBomberman();
         game.setBombermanDirection(DIRECTION_ENUM.WEST);
         break;
     }
@@ -77,15 +80,18 @@ $(document).ready(function() {
     switch (event.key) {
       case "ArrowDown":
         if (!game.bomberman.currentDirection === DIRECTION_ENUM.SOUTH) return;
+        game.stopMovingBomberman();
       case "ArrowUp":
         if (!game.bomberman.currentDirection === DIRECTION_ENUM.NORTH) return;
+        game.stopMovingBomberman();
       case "ArrowRight":
         if (!game.bomberman.currentDirection === DIRECTION_ENUM.EAST) return;
+        game.stopMovingBomberman();
       case "ArrowLeft":
         if (!game.bomberman.currentDirection === DIRECTION_ENUM.WEST) return;
+        game.stopMovingBomberman();
         break;
     }
-    game.stopMovingBomberman();
   });
 });
 
