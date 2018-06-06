@@ -38,6 +38,8 @@ function BombermanGame(
     enemy.speed = this.field.tileSize / enemy.speed;
   }
   this.bombListener = bombListener;
+  this.isLost = false;
+  this.isWon = false;
 }
 
 /////////// Functions to control bomberman //////////////
@@ -68,6 +70,7 @@ BombermanGame.prototype.moveEnemy = function(enemy) {
     enemy.move();
     if (this.isCollusionOfCharacters(enemy, this.bomberman)) {
       console.log("is collusion!");
+      this.isLost = true;
     }
   } else if (this.isAtBorder(enemy)) {
     // console.log("cant move further in this direction! current direction: " + enemy.currentDirection);

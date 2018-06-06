@@ -3,6 +3,7 @@
 var game;
 var bombermanHTML;
 var enemiesjQuery;
+var animationFrameId;
 var bombListener = {
   onBombExplosion: function(x, y) {
     var jQueryElement = $("#" + x + "-" + y);
@@ -45,14 +46,15 @@ $(document).ready(function() {
   enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);
   animate();
 
-  var reqID;
-
   function animate() {
     moveEnemiesVisually();
     if (game.bomberman.isMoving) {
       moveBombermanVisually();
     }
-    reqID = requestAnimationFrame(animate);
+    if (!game.isLost) {
+      // DO STUFF When the game is lost!
+      animationFrameId = requestAnimationFrame(animate);
+    }
   }
 
   // setInterval(function() {
