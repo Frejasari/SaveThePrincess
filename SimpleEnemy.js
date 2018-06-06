@@ -1,31 +1,14 @@
 // Simple Enemy
 
 function SimpleEnemy(startX, startY, speed = 50, size) {
-  this.x = startX;
-  this.y = startY;
-  this.currentDirection = getRandomDirection();
-  this.speed = speed;
-  this.size = size;
+  MovingElement.call(this, size, startX, startY, speed, getRandomDirection());
   this.isAtBorder = true;
 }
 
+SimpleEnemy.prototype = Object.create(MovingElement.prototype);
+
 SimpleEnemy.prototype.changeDirection = function() {
   this.currentDirection = getRandomDirection();
-};
-
-SimpleEnemy.prototype.move = function() {
-  switch (this.currentDirection) {
-    case DIRECTION_ENUM.NORTH:
-      return (this.y -= this.speed);
-    case DIRECTION_ENUM.EAST:
-      return (this.x += this.speed);
-    case DIRECTION_ENUM.SOUTH:
-      return (this.y += this.speed);
-    case DIRECTION_ENUM.WEST:
-      return (this.x -= this.speed);
-    default:
-      console.log("check your direction enum! No valid direction!");
-  }
 };
 
 // TODO: Rework this function to not choose the same direction again!

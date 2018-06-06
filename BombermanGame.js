@@ -48,7 +48,7 @@ function BombermanGame(
 /////////// Functions to control bomberman //////////////
 
 BombermanGame.prototype.setBombermanDirection = function(direction) {
-  this.bomberman.setDirection(direction);
+  this.bomberman.changeDirection(direction);
 };
 
 BombermanGame.prototype.stopMovingBomberman = function() {
@@ -247,10 +247,15 @@ BombermanGame.prototype.moveToNextBorder = function(character) {
 ////// Functions to set and ignite a bomb
 
 BombermanGame.prototype.igniteBomb = function() {
-  var tileCoordinates = this.field.getCurrentTileIndexFromPosition(this.bomberman.getMidX(), this.bomberman.getMidY());
-  var coordinates = this.field.getMidCoordinatesFromTile(tileCoordinates);
-  this.bomberman.igniteBomb(coordinates.x, coordinates.y, this);
-  this.bombListener.onBombIgnition(tileCoordinates.x, tileCoordinates.y);
+  if (this.bomberman.canSetBomb()) {
+    var tileCoordinates = this.field.getCurrentTileIndexFromPosition(
+      this.bomberman.getMidX(),
+      this.bomberman.getMidY()
+    );
+    var coordinates = this.field.getMidCoordinatesFromTile(tileCoordinates);
+    this.bomberman.igniteBomb(coordinates.x, coordinates.y, this);
+    this.bombListener.onBombIgnition(tileCoordinates.x, tileCoordinates.y);
+  }
 };
 
 BombermanGame.prototype.onBombExplosion = function(bomb) {
