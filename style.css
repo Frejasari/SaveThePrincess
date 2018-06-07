@@ -1,13 +1,61 @@
-#game-field {
+#container {
   position: relative;
-  background-color: bisque;
+  height: 95vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen {
   width: 650px;
   height: 650px;
+}
+
+#overlay-start-display {
+  position: absolute;
+  background-color: rgba(100, 100, 100, 0.8);
+  z-index: 3; /* Specify a stack order in case you're using a different order for other */
+  font-size: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* display: none; */
+}
+
+#start-btn {
+  padding: 25px;
+  border: 1px white solid;
+  background-color: rgba(105, 105, 105);
+  color: white;
+  font-size: 40px;
+  /* width: 20vw; */
+}
+
+#underlay-board {
+  position: absolute;
+  background-color: bisque;
+  z-index: 2; /* Specify a stack order in case you're using a different order for other */
+
   /* setting up flex-box */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
+  /* display: none; */
+}
+
+#game-field {
+  position: absolute;
+  background-color: bisque;
+  /* setting up flex-box */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  /* display: none; */
 }
 
 #bomberman {
@@ -30,7 +78,6 @@
 
 .game-tile {
   /* margin: 1px; */
-  border: 1px, solid, black;
   height: 10px;
   width: 10px;
 }

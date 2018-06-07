@@ -10,11 +10,16 @@
 </head>
 
 <body>
-  <section id="game-field">
-    <div id="bomberman">TEST</div>
+  <section id="container">
+    <section id="overlay-start-display" class="screen">
+      <button id="start-btn">START GAME</button>
+    </section>
+    <section id="underlay-board" class="screen">
+    </section>
+    <section id="game-field" class="screen">
+      <div id="bomberman"></div>
+    </section>
   </section>
-
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="Character.js"></script>
   <script src="SimpleEnemy.js"></script>

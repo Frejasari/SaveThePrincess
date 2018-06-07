@@ -45,7 +45,6 @@ function Bomb(midX, midY, tileSize, bombRange = 1, size, listeners) {
   this.x = midX - (1 / 2) * this.size;
   this.y = midY - (1 / 2) * this.size;
   this.bombRange = bombRange;
-  this.fuseTime = 3;
   this.listeners = listeners;
   this.setExplosion();
 }

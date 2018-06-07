@@ -1,5 +1,5 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
-var firstRoundEnemies = [new SimpleEnemy(11, 1), new SimpleEnemy(11, 6), new SimpleEnemy(4, 5), new SimpleEnemy(1, 10)];
+var firstRoundEnemies = [new SimpleEnemy(4, 5), new SimpleEnemy(11, 6), new SimpleEnemy(1, 10)];
 
 var fieldMatrixMock = new FieldMatrix(
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
@@ -18,27 +18,30 @@ var fieldMatrixMock = new FieldMatrix(
 
 function BombermanGame(
   bombListener,
+  fieldSize,
   field = fieldMatrixMock,
   bomberman = new Bomberman(),
   enemies = firstRoundEnemies
 ) {
   this.field = field;
+  var tileSize = fieldSize / this.field.matrix.length;
+  this.field.tileSize = tileSize;
   this.bomberman = bomberman; // stores the bomberman, here only for first round!
   this.enemies = enemies; // array which stores the enemies that exist in this round
   this.bombs = [];
-  this.bomberman.size = this.field.tileSize;
-  this.bomberman.x = this.field.tileSize;
-  this.bomberman.y = this.field.tileSize;
+  this.bomberman.size = tileSize;
+  this.bomberman.x = tileSize;
+  this.bomberman.y = tileSize;
   this.bomberman.speed = 5;
   // this.bomberman.speed = this.field.tileSize / this.bomberman.speed;
-  this.bomberman.tileSize = this.field.tileSize;
+  this.bomberman.tileSize = tileSize;
   for (var i = 0; i < this.enemies.length; i++) {
     var enemy = this.enemies[i];
-    enemy.size = this.field.tileSize;
-    enemy.x = enemy.x * this.field.tileSize;
-    enemy.y = enemy.y * this.field.tileSize;
-    enemy.speed = this.field.tileSize / enemy.speed;
-    enemy.tileSize = this.field.tileSize;
+    enemy.size = tileSize;
+    enemy.x = enemy.x * tileSize;
+    enemy.y = enemy.y * tileSize;
+    enemy.speed = tileSize / enemy.speed;
+    enemy.tileSize = tileSize;
   }
   this.bombListener = bombListener;
 }
@@ -69,7 +72,6 @@ BombermanGame.prototype.moveEnemy = function(enemy) {
   if (this.canMove(enemy, enemy.currentDirection)) {
     enemy.move();
     if (this.isCollisionOfCharacters(enemy, this.bomberman)) {
-      console.log("is collusion!");
       this.bomberman.isAlive = false;
     }
   } else if (this.isAtBorder(enemy)) {

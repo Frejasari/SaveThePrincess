@@ -43,7 +43,7 @@ var TILE = {
   }
 };
 
-function FieldMatrix(containerWidth, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11) {
+function FieldMatrix(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, containerWidth = 10) {
   this.matrix = [createBorderRow(13), r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, createBorderRow(13)];
   this.tileSize = containerWidth / this.matrix.length;
 }
