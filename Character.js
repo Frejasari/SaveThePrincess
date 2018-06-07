@@ -22,18 +22,31 @@ function MovingElement(size, startX, startY, tileSize, speed, currentDirection) 
 MovingElement.prototype = Object.create(GameElement.prototype);
 
 MovingElement.prototype.move = function() {
+  if (!this.isAlive) return;
   switch (this.currentDirection) {
     case DIRECTION_ENUM.NORTH:
+      this.centerVertically();
       return (this.y -= this.speed);
     case DIRECTION_ENUM.EAST:
+      this.centerHorizontally();
       return (this.x += this.speed);
     case DIRECTION_ENUM.SOUTH:
+      this.centerVertically();
       return (this.y += this.speed);
     case DIRECTION_ENUM.WEST:
+      this.centerHorizontally();
       return (this.x -= this.speed);
     default:
       console.log("check your direction enum! No valid direction!");
   }
+};
+
+MovingElement.prototype.centerVertically = function() {
+  this.x = Math.round(this.x / this.tileSize) * this.tileSize;
+};
+
+MovingElement.prototype.centerHorizontally = function() {
+  this.y = Math.round(this.y / this.tileSize) * this.tileSize;
 };
 
 MovingElement.prototype.changeDirection = function(direction) {
