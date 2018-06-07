@@ -1,5 +1,10 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
-var firstRoundEnemies = [new SimpleEnemy(11, 1), new SimpleEnemy(11, 6), new SimpleEnemy(4, 11), new SimpleEnemy(1, 5)];
+var firstRoundEnemies = [
+  new SimpleEnemy(11, 1),
+  new SimpleEnemy(11, 6),
+  new SimpleEnemy(4, 11),
+  new SimpleEnemy(1, 10)
+];
 
 var fieldMatrixMock = new FieldMatrix(
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
@@ -29,7 +34,8 @@ function BombermanGame(
   this.bomberman.size = this.field.tileSize;
   this.bomberman.x = this.field.tileSize;
   this.bomberman.y = this.field.tileSize;
-  this.bomberman.speed = this.field.tileSize / this.bomberman.speed;
+  this.bomberman.speed = 5;
+  // this.bomberman.speed = this.field.tileSize / this.bomberman.speed;
   this.bomberman.tileSize = this.field.tileSize;
   for (var i = 0; i < this.enemies.length; i++) {
     var enemy = this.enemies[i];
@@ -59,18 +65,17 @@ BombermanGame.prototype.startMovingBomberman = function() {
 };
 
 BombermanGame.prototype.moveBomberman = function() {
-  if (this.canMove(this.bomberman)) {
+  if (this.canMove(this.bomberman, this.bomberman.currentDirection)) {
     this.bomberman.move();
   } else if (!this.isAtBorder(this.bomberman)) {
     this.moveToNextBorder(this.bomberman);
-    // console.log("cant move further in this direction!");
   }
 };
 
 BombermanGame.prototype.moveEnemy = function(enemy) {
-  if (this.canMove(enemy)) {
+  if (this.canMove(enemy, enemy.currentDirection)) {
     enemy.move();
-    if (this.isCollusionOfCharacters(enemy, this.bomberman)) {
+    if (this.isCollisionOfCharacters(enemy, this.bomberman)) {
       console.log("is collusion!");
       this.isLost = true;
     }
@@ -82,121 +87,6 @@ BombermanGame.prototype.moveEnemy = function(enemy) {
 };
 
 //////////// Check if moving in selected direction is possible ////////////
-
-BombermanGame.prototype.canMoveNorth = function(character) {
-  var tolerance = this.getTolerance(character);
-  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x + character.size * tolerance,
-    character.y + character.size
-  );
-  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x + character.size * (1 - tolerance),
-    character.y - character.speed
-  );
-  return (
-    currTileStartCoord.x === currTileEndCoord.x &&
-    this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
-  );
-};
-
-BombermanGame.prototype.canMoveSouth = function(character) {
-  var tolerance = this.getTolerance(character);
-  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x + character.size * tolerance,
-    character.y
-  );
-  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x + character.size * (1 - tolerance),
-    character.y + character.speed + character.size
-  );
-  return (
-    currTileStartCoord.x === currTileEndCoord.x &&
-    this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
-  );
-};
-
-// TODO REWORK?
-// BombermanGame.prototype.isNextStepInCurrentTile = function(coordinate, direction, character) {
-//   if (DIRECTION_ENUM.NORTH === direction || DIRECTION_ENUM.WEST === direction) {
-//     return coordinate % this.field.tileSize > charater.speed;
-//   } else {
-//     return coordinate % this.field.tileSize < characterSpeed;
-//   }
-// };
-
-BombermanGame.prototype.canMoveEast = function(character) {
-  var tolerance = this.getTolerance(character);
-  if (this.getNextBorder) var tolerance = this.getTolerance(character);
-  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x,
-    character.y + character.size * tolerance
-  );
-  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x + character.speed + character.size,
-    character.y + character.size * (1 - tolerance)
-  );
-  return (
-    currTileStartCoord.y === currTileEndCoord.y &&
-    this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
-  );
-};
-
-BombermanGame.prototype.canMoveWest = function(character) {
-  var tolerance = this.getTolerance(character);
-  var currTileStartCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x + character.size,
-    character.y + character.size * tolerance
-  );
-  var currTileEndCoord = this.field.getCurrentTileIndexFromPosition(
-    character.x - character.speed,
-    character.y + character.size * (1 - tolerance)
-  );
-  return (
-    currTileStartCoord.y === currTileEndCoord.y &&
-    this.field.getTileAt(currTileEndCoord.x, currTileEndCoord.y) === TILE.NO
-  );
-};
-
-BombermanGame.prototype.getTolerance = function(character) {
-  return character.speed / character.size;
-};
-
-BombermanGame.prototype.getNearestPositionNorth = function(character) {
-  var upperY = this.field.getCurrentTileIndexFromPosition(character.x, character.y + character.speed).y;
-  return this.field.tileSize * upperY;
-};
-
-BombermanGame.prototype.getNearestPositionSouth = function(character) {
-  var lowerY = this.field.getCurrentTileIndexFromPosition(character.x, character.y - character.speed).y + 1;
-  return this.field.tileSize * lowerY;
-};
-
-BombermanGame.prototype.getNearestPositionEast = function(character) {
-  var upperX = this.field.getCurrentTileIndexFromPosition(character.x - character.speed, character.y).x + 1;
-  return this.field.tileSize * upperX;
-};
-
-BombermanGame.prototype.getNearestPositionWest = function(character) {
-  var lowerX = this.field.getCurrentTileIndexFromPosition(character.x + character.speed, character.y).x;
-  return this.field.tileSize * lowerX;
-};
-
-BombermanGame.prototype.canMove = function(character) {
-  // if (this.getDistanceToNextBorder(character) > character.speed) {
-  //   console.log("getDistanceToNextBorder >= this.character.speed");
-  //   return true;
-  // }
-  switch (character.currentDirection) {
-    case DIRECTION_ENUM.NORTH:
-      return this.canMoveNorth(character);
-    case DIRECTION_ENUM.SOUTH:
-      return this.canMoveSouth(character);
-    case DIRECTION_ENUM.EAST:
-      return this.canMoveEast(character);
-    case DIRECTION_ENUM.WEST:
-      return this.canMoveWest(character);
-  }
-};
 
 // TODO: does not work for too slow enemies! They get stuck in Nort or West direction!
 BombermanGame.prototype.isAtBorder = function(character) {
@@ -221,29 +111,6 @@ BombermanGame.prototype.moveToNextBorder = function(character) {
       break;
   }
 };
-
-// BombermanGame.prototype.getDistanceToNextBorder = function(character) {
-//   switch (character.currentDirection) {
-//     case DIRECTION_ENUM.NORTH:
-//       console.log("speed " + character.speed + " in NORTH");
-//       console.log("tileSize: " + this.field.tileSize);
-//       console.log("distance " + (character.y % this.field.tileSize));
-//       return character.y % this.field.tileSize;
-//       break;
-//     case DIRECTION_ENUM.SOUTH:
-//       console.log("speed of " + character.speedacter + " in SOUTH");
-//       console.log("tileSize: " + this.field.tileSize);
-//       console.log("distance: " + (character.y % this.field.tileSize));
-//       return character.y % this.field.tileSize;
-//       break;
-//     case DIRECTION_ENUM.EAST:
-//       return character.x % this.field.tileSize;
-//       break;
-//     case DIRECTION_ENUM.WEST:
-//       return character.x % this.field.tileSize;
-//       break;
-//   }
-// };
 
 ////// Functions to set and ignite a bomb
 
@@ -315,10 +182,65 @@ BombermanGame.prototype.onBombExplosion = function(bomb) {
 
 // detect collision between 2 characters
 
-BombermanGame.prototype.isCollusionOfCharacters = function(char1, char2) {
+BombermanGame.prototype.isCollisionOfCharacters = function(char1, char2) {
   var minDistance = char1.size / 2 + char2.size / 2;
-  return (
-    Math.abs(char1.getMidX() - char2.getMidX()) < minDistance &&
-    Math.abs(char1.getMidY() - char2.getMidY()) < minDistance
+  return this.isCollisionWithCharacter(char1, char2.getMidX(), char2.getMidY(), minDistance);
+};
+
+BombermanGame.prototype.isCollisionWithCharacter = function(char1, midX, midY, minDistance) {
+  return Math.abs(char1.getMidX() - midX) < minDistance && Math.abs(char1.getMidY() - midY < minDistance);
+};
+
+// detect if character is in bomb radius
+BombermanGame.prototype.isCharacterInField = function(char, tileIndizes) {
+  var midTileCoordinate = this.field.getMidCoordinatesFromTileIndizes(tileIndizes);
+};
+
+// Functions to check for wall collision
+
+BombermanGame.prototype.getDistanceToTopBorder = function(character) {
+  return character.getMidY() % this.field.tileSize;
+};
+
+BombermanGame.prototype.getDistanceToLeftBorder = function(character) {
+  return character.getMidX() % this.field.tileSize;
+};
+
+BombermanGame.prototype.getBlockedDistanceFromBorder = function() {
+  return this.field.tileSize * 0.4;
+};
+BombermanGame.prototype.getCurrentCharacterTile = function(character) {
+  return this.field.getCurrentTileIndexFromPosition(character.getMidX(), character.getMidY());
+};
+
+BombermanGame.prototype.isNextTilePassable = function(tileIndizes, direction) {
+  return this.isTilePassable(tileIndizes.getNextTile(direction));
+};
+
+BombermanGame.prototype.isCollision = function(x1, x2, y1, y2, minDistance) {
+  return Math.abs(x1 - x2) < minDistance && Math.abs(y1 - y2) < minDistance;
+};
+
+BombermanGame.prototype.canMove = function(character, direction) {
+  var characterTileIndizes = this.getCurrentCharacterTile(character);
+  if (this.isNextTilePassable(characterTileIndizes, direction)) {
+    return true;
+  }
+  var nextTileIndizes = characterTileIndizes.getNextTile(direction);
+  console.log("currentTileIndizes", characterTileIndizes);
+  console.log("nextTileIndizes", nextTileIndizes);
+  var nextTile = this.field.getMidCoordinatesFromTileIndizes(nextTileIndizes);
+  var isCollision = this.isCollision(
+    character.getMidX(),
+    nextTile.x,
+    character.getMidY(),
+    nextTile.y,
+    character.speed + character.size / 2 + this.field.tileSize / 2
   );
+  console.log("isCollision", isCollision);
+  return !isCollision;
+};
+
+BombermanGame.prototype.isTilePassable = function(tileIndizes) {
+  return this.field.getTileFromIndizesAt(tileIndizes) === TILE.NO;
 };
