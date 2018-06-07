@@ -180,18 +180,22 @@ BombermanGame.prototype.onBombExplosion = function(bomb) {
   }
 };
 
-// detect collision between 2 characters
+// detect collision
+
+BombermanGame.prototype.isCollision = function(x1, x2, y1, y2, minDistance) {
+  return Math.abs(x1 - x2) < minDistance && Math.abs(y1 - y2) < minDistance;
+};
 
 BombermanGame.prototype.isCollisionOfCharacters = function(char1, char2) {
   var minDistance = char1.size / 2 + char2.size / 2;
-  return this.isCollisionWithCharacter(char1, char2.getMidX(), char2.getMidY(), minDistance);
+  return this.isCollision(char1.getMidX(), char2.getMidX(), char1.getMidY(), char2.getMidY(), minDistance);
 };
 
-BombermanGame.prototype.isCollisionWithCharacter = function(char1, midX, midY, minDistance) {
-  return Math.abs(char1.getMidX() - midX) < minDistance && Math.abs(char1.getMidY() - midY < minDistance);
+BombermanGame.prototype.isCollisionWithCharacter = function(char, midX, midY, minDistance) {
+  return this.isCollision(midX, char.getMidX(), midY, char.getMidY(), minDistance);
 };
 
-// detect if character is in bomb radius
+// detect if character is in bomb radius /// DELETE?
 BombermanGame.prototype.isCharacterInField = function(char, tileIndizes) {
   var midTileCoordinate = this.field.getMidCoordinatesFromTileIndizes(tileIndizes);
 };
@@ -209,16 +213,13 @@ BombermanGame.prototype.getDistanceToLeftBorder = function(character) {
 BombermanGame.prototype.getBlockedDistanceFromBorder = function() {
   return this.field.tileSize * 0.4;
 };
+
 BombermanGame.prototype.getCurrentCharacterTile = function(character) {
   return this.field.getCurrentTileIndexFromPosition(character.getMidX(), character.getMidY());
 };
 
 BombermanGame.prototype.isNextTilePassable = function(tileIndizes, direction) {
   return this.isTilePassable(tileIndizes.getNextTile(direction));
-};
-
-BombermanGame.prototype.isCollision = function(x1, x2, y1, y2, minDistance) {
-  return Math.abs(x1 - x2) < minDistance && Math.abs(y1 - y2) < minDistance;
 };
 
 BombermanGame.prototype.canMove = function(character, direction) {
