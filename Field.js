@@ -36,7 +36,6 @@ var TILE = {
     switch (number) {
       case TILE.NO:
       case TILE.WALL:
-        console.log("TILE_NO, TILE_WALL");
         return false;
       default:
         return true;

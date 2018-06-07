@@ -53,7 +53,6 @@ Bomberman.prototype.igniteBomb = function(bombMidX, bombMidY, listener) {
 };
 
 Bomberman.prototype.onBombExplosion = function(bomb) {
-  console.log("explosion!!!! in bomberman!");
   this.currentBombs.shift();
 };
 

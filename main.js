@@ -47,8 +47,8 @@ $(document).ready(function() {
     createSecondRow(1, 0, 0, 0, 0, 0),
     createRow(1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0),
     createSecondRow(0, 1, 0, 1, 0, 1),
-    createRow(0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1),
-    createSecondRow(0, 1, 1, 0, 0, 0),
+    createRow(0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1),
+    createSecondRow(0, 1, 0, 0, 0, 0),
     createRow(0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
   );
   game = new BombermanGame(bombListener, fieldMatrix);
@@ -68,15 +68,14 @@ $(document).ready(function() {
     }
   }
 
-  // setTimeout(function() {
-  //   // animate();
-  //   // window.cancelAnimationFrame(animationFrameId);
-  // }, 1000);
+  // setInterval(s
 
   function moveBombermanVisually() {
     game.moveBomberman();
     setPositionOfjQueryCharacter(bombermanHTML, game.bomberman);
   }
+
+  function removeEnemies() {}
 
   function moveEnemiesVisually() {
     game.enemies.forEach(function(enemy, index) {

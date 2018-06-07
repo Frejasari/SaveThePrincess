@@ -1,22 +1,22 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
 var firstRoundEnemies = [
-  new SimpleEnemy(11, 1),
-  new SimpleEnemy(11, 6),
-  new SimpleEnemy(4, 11),
+  // new SimpleEnemy(11, 1),
+  // new SimpleEnemy(11, 6),
+  // new SimpleEnemy(4, 5),
   new SimpleEnemy(1, 10)
 ];
 
 var fieldMatrixMock = new FieldMatrix(
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
   createSecondRow(0, 1, 0, 1, 0, 0),
-  createRow(0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1),
+  createRow(0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1),
   createSecondRow(0, 0, 1, 0, 0, 0),
   createRow(0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0),
   createSecondRow(1, 0, 0, 0, 0, 0),
   createRow(1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0),
   createSecondRow(0, 1, 0, 1, 0, 1),
-  createRow(0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1),
-  createSecondRow(0, 1, 1, 0, 0, 0),
+  createRow(0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1),
+  createSecondRow(0, 1, 0, 0, 0, 0),
   createRow(0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1),
   10
 );
@@ -227,8 +227,6 @@ BombermanGame.prototype.canMove = function(character, direction) {
     return true;
   }
   var nextTileIndizes = characterTileIndizes.getNextTile(direction);
-  console.log("currentTileIndizes", characterTileIndizes);
-  console.log("nextTileIndizes", nextTileIndizes);
   var nextTile = this.field.getMidCoordinatesFromTileIndizes(nextTileIndizes);
   var isCollision = this.isCollision(
     character.getMidX(),
@@ -237,7 +235,6 @@ BombermanGame.prototype.canMove = function(character, direction) {
     nextTile.y,
     character.speed + character.size / 2 + this.field.tileSize / 2
   );
-  console.log("isCollision", isCollision);
   return !isCollision;
 };
 
