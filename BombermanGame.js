@@ -77,7 +77,6 @@ BombermanGame.prototype.moveEnemy = function(enemy) {
   } else {
     this.moveToNextBorder(enemy);
   }
-  if (this.isLost()) this.onLost();
 };
 
 //////////// Check if moving in selected direction is possible ////////////
@@ -160,7 +159,7 @@ BombermanGame.prototype.doExplosionAtTile = function(explosionXIndex, explosionY
     this.field.replaceTileAt(explosionXIndex, explosionYIndex, TILE.explode(tile));
     var diedEnemies = [];
     if (this.didCharacterDieOnBombExplosion(this.bomberman, explosionXIndex, explosionYIndex)) {
-      this.onLost();
+      this.bomberman.isAlive = false;
     }
     this.enemies.forEach((enemy, index) => {
       var diedEnemy = this.checkAndReturnDeadEnemy(enemy, index, explosionXIndex, explosionYIndex);
@@ -180,8 +179,6 @@ BombermanGame.prototype.onBombExplosion = function(bomb) {
     this.doExplosionAtTile(bombX + i, bombY);
     this.doExplosionAtTile(bombX, bombY + i);
   }
-  if (this.isWon()) this.onWon();
-  if (this.isLost()) this.onLost();
 };
 
 // detect collision
@@ -248,12 +245,6 @@ BombermanGame.prototype.isLost = function() {
   return !this.bomberman.isAlive;
 };
 
-BombermanGame.prototype.onLost = function() {
-  // this.bomberman.isAlive = false;
-  // this.listener.onLost();
-  console.log("you lost!");
-};
-
 /// WON
 
 BombermanGame.prototype.areEnemiesAlive = function() {
@@ -265,9 +256,4 @@ BombermanGame.prototype.areEnemiesAlive = function() {
 
 BombermanGame.prototype.isWon = function() {
   return this.bomberman.isAlive === true && !this.areEnemiesAlive();
-};
-
-BombermanGame.prototype.onWon = function() {
-  // this.listener.onWon();
-  console.log("you won!");
 };
