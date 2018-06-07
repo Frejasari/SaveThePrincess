@@ -19,28 +19,6 @@ function Bomberman(
 
 Bomberman.prototype = Object.create(MovingElement.prototype);
 
-Bomberman.prototype.moveNorth = function() {
-  this.isMoving = true;
-  this.currentDirection = DIRECTION_ENUM.NORTH;
-  this.y -= this.speed;
-};
-
-Bomberman.prototype.moveEast = function() {
-  this.isMoving = true;
-  this.currentDirection = DIRECTION_ENUM.EAST;
-  this.x += this.speed;
-};
-
-Bomberman.prototype.moveSouth = function() {
-  this.isMoving = true;
-  this.y += this.speed;
-};
-
-Bomberman.prototype.moveWest = function() {
-  this.isMoving = true;
-  this.x -= this.speed;
-};
-
 Bomberman.prototype.canSetBomb = function() {
   return this.maxAllowedBombs > this.currentBombs.length;
 };
