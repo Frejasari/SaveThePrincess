@@ -151,6 +151,7 @@ BombermanGame.prototype.checkAndReturnDeadEnemy = function(enemy, enemyIndex, ex
     this.setCharacterDead(enemy);
     return enemyIndex;
   }
+  return null;
 };
 
 BombermanGame.prototype.doExplosionAtTile = function(explosionXIndex, explosionYIndex) {
@@ -163,7 +164,7 @@ BombermanGame.prototype.doExplosionAtTile = function(explosionXIndex, explosionY
     }
     this.enemies.forEach((enemy, index) => {
       var diedEnemy = this.checkAndReturnDeadEnemy(enemy, index, explosionXIndex, explosionYIndex);
-      if (diedEnemy) diedEnemies.push(diedEnemy);
+      if (diedEnemy !== null) diedEnemies.push(diedEnemy);
     });
     this.bombListener.onBombExplosion(explosionXIndex, explosionYIndex, diedEnemies);
   }
