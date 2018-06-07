@@ -82,3 +82,16 @@ Bomb.prototype.setExplosion = function() {
     });
   }, 3000);
 };
+
+Bomb.prototype.getExplosionBorderNorth = function() {
+  return this.y - this.size * this.bombRange;
+};
+Bomb.prototype.getExplosionBorderSouth = function() {
+  return this.y + this.size + this.size * this.bombRange;
+};
+Bomb.prototype.getExplosionBorderEast = function() {
+  return this.x + this.size + this.size * this.bombRange;
+};
+Bomb.prototype.getExplosionBorderWest = function() {
+  return this.x - this.size * this.bombRange;
+};

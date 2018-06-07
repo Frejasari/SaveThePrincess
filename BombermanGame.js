@@ -253,7 +253,7 @@ BombermanGame.prototype.igniteBomb = function() {
       this.bomberman.getMidX(),
       this.bomberman.getMidY()
     );
-    var coordinates = this.field.getMidCoordinatesFromTile(tileCoordinates);
+    var coordinates = this.field.getMidCoordinatesFromTileIndizes(tileCoordinates);
     this.bomberman.igniteBomb(coordinates.x, coordinates.y, this);
     this.bombListener.onBombIgnition(tileCoordinates.x, tileCoordinates.y);
     this.field.replaceTileAt(tileCoordinates.x, tileCoordinates.y, TILE.BOMB);
@@ -265,22 +265,50 @@ BombermanGame.prototype.onBombExplosion = function(bomb) {
   var bombX = bombExplosionTileIndizes.x;
   var bombY = bombExplosionTileIndizes.y;
   var bombRange = bomb.bombRange;
+  var that = this;
   this.field.replaceTileAt(bombX, bombY, TILE.NO);
   for (var i = -bomb.bombRange; i <= bomb.bombRange; i++) {
     var tile1 = this.field.matrix[bombY][bombX + i];
     if (!TILE.isInvincible(tile1)) {
+      var tile1Coordinates = this.field.getMidCoordinatesFromTileIndizesXAndY(bombX + i, bombY);
       tile1 = TILE.explode(tile1);
       this.field.replaceTileAt(bombX + i, bombY, tile1);
-
-      // this.field.matrix[bombY][bombX + i] = tile1;
-      this.bombListener.onBombExplosion(bombX + i, bombY);
+      var diedEnemies = [];
+      this.enemies.forEach(function(enemy, index) {
+        if (
+          that.isCollisionWithCharacter(
+            enemy,
+            tile1Coordinates.x,
+            tile1Coordinates.y,
+            enemy.size / 2 + that.field.tileSize / 2
+          )
+        ) {
+          enemy.isAlive = false;
+          diedEnemies.push(index);
+        }
+      });
+      this.bombListener.onBombExplosion(bombX + i, bombY, diedEnemies);
     }
     var tile2 = this.field.matrix[bombY + i][bombX];
     if (!TILE.isInvincible(tile2)) {
+      var tile2Coordinates = this.field.getMidCoordinatesFromTileIndizesXAndY(bombX, bombY + i);
       tile2 = TILE.explode(tile2);
       this.field.replaceTileAt(bombX, bombY + i, tile2);
-      // this.field.matrix[bombY + i][bombX] = tile2;
-      this.bombListener.onBombExplosion(bombX, bombY + i);
+      var diedEnemies = [];
+      this.enemies.forEach(function(enemy, index) {
+        if (
+          that.isCollisionWithCharacter(
+            enemy,
+            tile2Coordinates.x,
+            tile2Coordinates.y,
+            enemy.size / 2 + that.field.tileSize / 2
+          )
+        ) {
+          enemy.isAlive = false;
+          diedEnemies.push(index);
+        }
+      });
+      this.bombListener.onBombExplosion(bombX, bombY + i, diedEnemies);
     }
   }
 };

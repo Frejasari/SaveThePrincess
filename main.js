@@ -2,13 +2,16 @@
 
 var game;
 var bombermanHTML;
-var enemiesjQuery;
 var animationFrameId;
 var bombListener = {
-  onBombExplosion: function(x, y) {
+  onBombExplosion: function(x, y, diedEnemies) {
     var jQueryElement = $("#" + x + "-" + y);
     jQueryElement.addClass("bomb-explosion");
+    removeDeadEnemies(diedEnemies);
     setTimeout(function() {
+      diedEnemies.forEach(function(e) {
+        $("#enemy-" + e).remove();
+      });
       jQueryElement
         .removeClass("wall")
         .removeClass("bomb-explosion")
@@ -22,6 +25,14 @@ var bombListener = {
     console.log("onBombIgnition in game.main", x, y);
   }
 };
+
+function removeDeadEnemies(diedEnemies) {
+  diedEnemies.forEach(function(e) {
+    console.log("remove called!");
+    $("#enemy-" + e).remove();
+    $("#enemy-" + e).css("background-color", "black");
+  });
+}
 
 $(document).ready(function() {
   bombermanHTML = $("#bomberman");
@@ -43,7 +54,7 @@ $(document).ready(function() {
   game = new BombermanGame(bombListener, fieldMatrix);
   createGameBoard(game.field, fieldContainer);
   setBombermanCSSProperties(game.bomberman, bombermanHTML);
-  enemiesjQuery = createAndAppendSimpleEnemy(game.enemies, fieldContainer);
+  createAndAppendSimpleEnemy(game.enemies, fieldContainer);
   animate();
 
   function animate() {
@@ -69,8 +80,10 @@ $(document).ready(function() {
 
   function moveEnemiesVisually() {
     game.enemies.forEach(function(enemy, index) {
-      game.moveEnemy(enemy);
-      setPositionOfjQueryCharacter(enemiesjQuery[index], enemy);
+      if (enemy.isAlive) {
+        game.moveEnemy(enemy);
+        setPositionOfjQueryCharacter($("#enemy-" + index), enemy);
+      }
     });
   }
 

@@ -63,7 +63,7 @@ FieldMatrix.prototype.getCurrentTileIndexFromPosition = function(x, y) {
   return new TileIndizes(x / this.tileSize, y / this.tileSize);
 };
 
-FieldMatrix.prototype.getMidCoordinatesFromTile = function(tileIndizes) {
+FieldMatrix.prototype.getMidCoordinatesFromTileIndizes = function(tileIndizes) {
   return new Coordinates(
     tileIndizes.x * this.tileSize + (1 / 2) * this.tileSize,
     tileIndizes.y * this.tileSize + (1 / 2) * this.tileSize
