@@ -57,7 +57,7 @@ Bomb.prototype.setExplosion = function() {
     that.listeners.forEach(function(element) {
       if (element) element.onBombExplosion(that);
     });
-  }, 3000);
+  }, 1500);
 };
 
 Bomb.prototype.getExplosionBorderNorth = function() {
