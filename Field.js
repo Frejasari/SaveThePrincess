@@ -70,6 +70,10 @@ FieldMatrix.prototype.getMidCoordinatesFromTile = function(tileIndizes) {
   );
 };
 
+FieldMatrix.prototype.getMidCoordinatesFromTileIndizesXAndY = function(x, y) {
+  return new Coordinates(x * this.tileSize + (1 / 2) * this.tileSize, y * this.tileSize + (1 / 2) * this.tileSize);
+};
+
 function Coordinates(x, y) {
   this.x = x;
   this.y = y;
@@ -79,6 +83,32 @@ function TileIndizes(x, y) {
   this.x = Math.floor(x);
   this.y = Math.floor(y);
 }
+
+TileIndizes.prototype.shiftNorth = function() {
+  return new TileIndizes(this.x, this.y - 1);
+};
+TileIndizes.prototype.shiftSouth = function() {
+  return new TileIndizes(this.x, this.y + 1);
+};
+TileIndizes.prototype.shiftEast = function() {
+  return new TileIndizes(this.x + 1, this.y);
+};
+TileIndizes.prototype.shiftWest = function() {
+  return new TileIndizes(this.x - 1, this.y);
+};
+
+TileIndizes.prototype.getNextTile = function(direction) {
+  switch (direction) {
+    case DIRECTION_ENUM.NORTH:
+      return this.shiftNorth();
+    case DIRECTION_ENUM.SOUTH:
+      return this.shiftSouth();
+    case DIRECTION_ENUM.WEST:
+      return this.shiftWest();
+    case DIRECTION_ENUM.EAST:
+      return this.shiftEast();
+  }
+};
 
 function createRow(f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11) {
   return [TILE.BORDER, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, TILE.BORDER];
