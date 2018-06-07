@@ -1,10 +1,5 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
-var firstRoundEnemies = [
-  // new SimpleEnemy(11, 1),
-  // new SimpleEnemy(11, 6),
-  // new SimpleEnemy(4, 5),
-  new SimpleEnemy(1, 10)
-];
+var firstRoundEnemies = [new SimpleEnemy(11, 1), new SimpleEnemy(11, 6), new SimpleEnemy(4, 5), new SimpleEnemy(1, 10)];
 
 var fieldMatrixMock = new FieldMatrix(
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
@@ -46,8 +41,6 @@ function BombermanGame(
     enemy.tileSize = this.field.tileSize;
   }
   this.bombListener = bombListener;
-  this.isLost = false;
-  this.isWon = false;
 }
 
 /////////// Functions to control bomberman //////////////
@@ -77,13 +70,14 @@ BombermanGame.prototype.moveEnemy = function(enemy) {
     enemy.move();
     if (this.isCollisionOfCharacters(enemy, this.bomberman)) {
       console.log("is collusion!");
-      this.isLost = true;
+      this.bomberman.isAlive = false;
     }
   } else if (this.isAtBorder(enemy)) {
     enemy.changeDirection();
   } else {
     this.moveToNextBorder(enemy);
   }
+  if (this.isLost()) this.onLost();
 };
 
 //////////// Check if moving in selected direction is possible ////////////
@@ -127,57 +121,66 @@ BombermanGame.prototype.igniteBomb = function() {
   }
 };
 
+BombermanGame.prototype.removeBomb = function(bombXIndize, bombYIndize) {
+  this.field.replaceTileAt(bombXIndize, bombYIndize, TILE.NO);
+};
+
+BombermanGame.prototype.replaceTileIfNotInvincible = function(xIndex, yIndex) {
+  var tile = this.field.getTileAt(xIndex, yIndex);
+  if (!TILE.isInvincible(tile)) {
+    this.field.replaceTileAt(xIndex, yIndex, TILE.explode(tile));
+  }
+};
+
+BombermanGame.prototype.didCharacterDieOnBombExplosion = function(character, explosionXIndize, explosionYIndize) {
+  var explosionMidCoord = this.field.getMidCoordinatesFromTileIndizesXAndY(explosionXIndize, explosionYIndize);
+  return this.isCollisionWithCharacter(
+    character,
+    explosionMidCoord.x,
+    explosionMidCoord.y,
+    character.size / 2 + this.field.tileSize / 2
+  );
+};
+
+BombermanGame.prototype.setCharacterDead = function(character) {
+  character.isAlive = false;
+};
+
+BombermanGame.prototype.checkAndReturnDeadEnemy = function(enemy, enemyIndex, explosionXIndex, explosionYIndex) {
+  if (this.didCharacterDieOnBombExplosion(enemy, explosionXIndex, explosionYIndex)) {
+    this.setCharacterDead(enemy);
+    return enemyIndex;
+  }
+};
+
+BombermanGame.prototype.doExplosionAtTile = function(explosionXIndex, explosionYIndex) {
+  var tile = this.field.getTileAt(explosionXIndex, explosionYIndex);
+  if (!TILE.isInvincible(tile)) {
+    this.field.replaceTileAt(explosionXIndex, explosionYIndex, TILE.explode(tile));
+    var diedEnemies = [];
+    if (this.didCharacterDieOnBombExplosion(this.bomberman, explosionXIndex, explosionYIndex)) {
+      this.onLost();
+    }
+    this.enemies.forEach((enemy, index) => {
+      var diedEnemy = this.checkAndReturnDeadEnemy(enemy, index, explosionXIndex, explosionYIndex);
+      if (diedEnemy) diedEnemies.push(diedEnemy);
+    });
+    this.bombListener.onBombExplosion(explosionXIndex, explosionYIndex, diedEnemies);
+  }
+};
+
 BombermanGame.prototype.onBombExplosion = function(bomb) {
   var bombExplosionTileIndizes = this.field.getCurrentTileIndexFromPosition(bomb.getMidX(), bomb.getMidY());
   var bombX = bombExplosionTileIndizes.x;
   var bombY = bombExplosionTileIndizes.y;
+  this.removeBomb(bombX, bombY);
   var bombRange = bomb.bombRange;
-  var that = this;
-  this.field.replaceTileAt(bombX, bombY, TILE.NO);
   for (var i = -bomb.bombRange; i <= bomb.bombRange; i++) {
-    var tile1 = this.field.matrix[bombY][bombX + i];
-    if (!TILE.isInvincible(tile1)) {
-      var tile1Coordinates = this.field.getMidCoordinatesFromTileIndizesXAndY(bombX + i, bombY);
-      tile1 = TILE.explode(tile1);
-      this.field.replaceTileAt(bombX + i, bombY, tile1);
-      var diedEnemies = [];
-      this.enemies.forEach(function(enemy, index) {
-        if (
-          that.isCollisionWithCharacter(
-            enemy,
-            tile1Coordinates.x,
-            tile1Coordinates.y,
-            enemy.size / 2 + that.field.tileSize / 2
-          )
-        ) {
-          enemy.isAlive = false;
-          diedEnemies.push(index);
-        }
-      });
-      this.bombListener.onBombExplosion(bombX + i, bombY, diedEnemies);
-    }
-    var tile2 = this.field.matrix[bombY + i][bombX];
-    if (!TILE.isInvincible(tile2)) {
-      var tile2Coordinates = this.field.getMidCoordinatesFromTileIndizesXAndY(bombX, bombY + i);
-      tile2 = TILE.explode(tile2);
-      this.field.replaceTileAt(bombX, bombY + i, tile2);
-      var diedEnemies = [];
-      this.enemies.forEach(function(enemy, index) {
-        if (
-          that.isCollisionWithCharacter(
-            enemy,
-            tile2Coordinates.x,
-            tile2Coordinates.y,
-            enemy.size / 2 + that.field.tileSize / 2
-          )
-        ) {
-          enemy.isAlive = false;
-          diedEnemies.push(index);
-        }
-      });
-      this.bombListener.onBombExplosion(bombX, bombY + i, diedEnemies);
-    }
+    this.doExplosionAtTile(bombX + i, bombY);
+    this.doExplosionAtTile(bombX, bombY + i);
   }
+  if (this.isWon()) this.onWon();
+  if (this.isLost()) this.onLost();
 };
 
 // detect collision
@@ -193,11 +196,6 @@ BombermanGame.prototype.isCollisionOfCharacters = function(char1, char2) {
 
 BombermanGame.prototype.isCollisionWithCharacter = function(char, midX, midY, minDistance) {
   return this.isCollision(midX, char.getMidX(), midY, char.getMidY(), minDistance);
-};
-
-// detect if character is in bomb radius /// DELETE?
-BombermanGame.prototype.isCharacterInField = function(char, tileIndizes) {
-  var midTileCoordinate = this.field.getMidCoordinatesFromTileIndizes(tileIndizes);
 };
 
 // Functions to check for wall collision
@@ -241,4 +239,34 @@ BombermanGame.prototype.canMove = function(character, direction) {
 
 BombermanGame.prototype.isTilePassable = function(tileIndizes) {
   return this.field.getTileFromIndizesAt(tileIndizes) === TILE.NO;
+};
+
+/// LOST
+
+BombermanGame.prototype.isLost = function() {
+  return !this.bomberman.isAlive;
+};
+
+BombermanGame.prototype.onLost = function() {
+  // this.bomberman.isAlive = false;
+  // this.listener.onLost();
+  console.log("you lost!");
+};
+
+/// WON
+
+BombermanGame.prototype.areEnemiesAlive = function() {
+  this.enemies.forEach(function(enemy) {
+    if (enemy.isAlive) return false;
+  });
+  return true;
+};
+
+BombermanGame.prototype.isWon = function() {
+  return this.bomberman.isAlive === true && !this.areEnemiesAlive();
+};
+
+BombermanGame.prototype.onWon = function() {
+  // this.listener.onWon();
+  console.log("you won!");
 };

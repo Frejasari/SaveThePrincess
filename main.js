@@ -22,7 +22,6 @@ var bombListener = {
   onBombIgnition: function(x, y) {
     var jQueryElement = $("#" + x + "-" + y);
     jQueryElement.addClass("bomb");
-    console.log("onBombIgnition in game.main", x, y);
   }
 };
 
@@ -62,8 +61,11 @@ $(document).ready(function() {
     if (game.bomberman.isMoving) {
       moveBombermanVisually();
     }
-    if (!game.isLost) {
+    if (game.isLost()) {
       // DO STUFF When the game is lost!
+    } else if (game.isWon()) {
+      // DO STUFF When the game is won!
+    } else {
       animationFrameId = requestAnimationFrame(animate);
     }
   }
