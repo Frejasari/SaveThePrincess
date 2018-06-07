@@ -1,23 +1,25 @@
-function Element(size, startX, startY) {
+function GameElement(size, startX, startY, tileSize) {
   this.x = startX;
   this.y = startY;
   this.size = size;
+  this.tileSize = tileSize;
 }
 
-Element.prototype.getMidX = function() {
+GameElement.prototype.getMidX = function() {
   return this.x + this.size / 2;
 };
-Element.prototype.getMidY = function() {
+GameElement.prototype.getMidY = function() {
   return this.y + this.size / 2;
 };
 
-function MovingElement(size, startX, startY, speed, currentDirection) {
-  Element.call(this, size, startX, startY);
+function MovingElement(size, startX, startY, tileSize, speed, currentDirection) {
+  GameElement.call(this, size, startX, startY, tileSize);
   this.speed = speed;
+  this.isAlive = true;
   this.currentDirection = currentDirection;
 }
 
-MovingElement.prototype = Object.create(Element.prototype);
+MovingElement.prototype = Object.create(GameElement.prototype);
 
 MovingElement.prototype.move = function() {
   switch (this.currentDirection) {

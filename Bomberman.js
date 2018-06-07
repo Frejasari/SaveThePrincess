@@ -5,11 +5,12 @@ function Bomberman(
   size = 700 / 13,
   startX = 700 / 13,
   startY = 100.13,
+  tileSize = 55,
   speed = 20,
   maxAllowedBombs = 1,
   bombStrength = 1
 ) {
-  MovingElement.call(this, size, startX, startY, speed, DIRECTION_ENUM.SOUTH);
+  MovingElement.call(this, size, startX, startY, tileSize, speed, DIRECTION_ENUM.SOUTH);
   this.maxAllowedBombs = maxAllowedBombs;
   this.bombStrength = bombStrength;
   this.currentBombs = [];
@@ -46,7 +47,7 @@ Bomberman.prototype.canSetBomb = function() {
 
 Bomberman.prototype.igniteBomb = function(bombMidX, bombMidY, listener) {
   if (this.canSetBomb) {
-    var newBomb = new Bomb(bombMidX, bombMidY, this.bombStrength, this.size, [this, listener]);
+    var newBomb = new Bomb(bombMidX, bombMidY, this.tileSize, this.bombStrength, this.size, [this, listener]);
     this.currentBombs.push(newBomb);
   } else console.log("you can only have " + this.maxAllowedBombs + " bombs!");
 };
@@ -62,8 +63,8 @@ Bomberman.prototype.isInBombRadius = function(bomb) {
 
 // BOMB
 
-function Bomb(midX, midY, bombRange = 1, size, listeners) {
-  Element.call(this, size);
+function Bomb(midX, midY, tileSize, bombRange = 1, size, listeners) {
+  GameElement.call(this, midX, midY, size, tileSize);
   this.x = midX - (1 / 2) * this.size;
   this.y = midY - (1 / 2) * this.size;
   this.bombRange = bombRange;
@@ -71,7 +72,7 @@ function Bomb(midX, midY, bombRange = 1, size, listeners) {
   this.listeners = listeners;
   this.setExplosion();
 }
-Bomb.prototype = Object.create(Element.prototype);
+Bomb.prototype = Object.create(GameElement.prototype);
 
 Bomb.prototype.setExplosion = function() {
   var that = this;
