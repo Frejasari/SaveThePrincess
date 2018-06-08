@@ -44,9 +44,12 @@ var TILE = {
 };
 
 function FieldMatrix(matrix, containerWidth = 10) {
-  this.matrix = matrix;
+  this.matrix = matrix.map(function(arr) {
+    return arr.slice();
+  });
   this.tileSize = containerWidth / this.matrix.length;
 }
+
 FieldMatrix.prototype.getTileAt = function(x, y) {
   return this.matrix[y][x];
 };

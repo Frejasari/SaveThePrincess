@@ -1,6 +1,8 @@
 /// just for testing at the moment!
 
 var game;
+var currLevel = 0;
+var round = 0;
 var bombermanHTML;
 var animationFrameId;
 var fieldContainer;
@@ -32,36 +34,54 @@ var bombListener = {
 $(document).ready(function() {
   fieldContainer = $("#game-board");
   emptyMatrixContainer = $("#underlay-board");
+  emptyMatrixContainer = $("#underlay-board");
   overlayContainer = $("#overlay-start-display");
   lostContainer = $("#overlay-lost-display");
   wonContainer = $("#overlay-won-display");
+  var width = fieldContainer.width();
 
   lostContainer.hide();
   wonContainer.hide();
 
-  setUpUnderlay(emptyMatrixContainer, emptyMatrixContainer.width() / 13);
+  setupEmptyField(emptyMatrixContainer, emptyMatrixContainer.width() / 13);
 
   $("#start-btn").click(function() {
     setUpGame(fieldContainer, fieldContainer.width());
-    fadeOverlayOut(overlayContainer, emptyMatrixContainer, this);
+    fadeOverlayOut(overlayContainer);
     $(this)
       .prop("onclick", null)
       .off("click");
   });
 });
 
-$("retry-btn").click(function() {});
+$("#retry-btn").click(function() {
+  if (game.isLost()) {
+    console.log("fied container width:", fieldContainer.width());
+    setUpGame(fieldContainer, fieldContainer.width());
+    fadeOverlayOut(lostContainer);
+  }
+});
 
-$("#next-btn").click(function() {});
+$("#next-btn").click(function() {
+  if (game.isWon()) {
+    setUpGame(fieldContainer, fieldContainer.width());
+    fadeOverlayOut(wonContainer);
+    console.log(currLevel);
+  }
+});
 
-function setUpUnderlay(container, tileSize) {
+function setupEmptyField(container, tileSize) {
   createBoard(container, emptyMatrix, tileSize);
 }
 
 function setUpGame(container, width) {
-  game = new BombermanGame(bombListener, width, fieldMatrix);
+  clearBoard(container);
+  console.log("width", width);
+  console.log(enemies1);
+  console.log("current level", currLevel);
+  game = new BombermanGame(bombListener, width, boardMatrixArray[currLevel], getEnemiesAtRound(currLevel));
+  console.log("bomberman game");
   createGameBoard(game.field, container);
-  // setBombermanCSSProperties(game.bomberman, bombermanHTML);
   createAndAppendBomberman(container);
   createAndAppendSimpleEnemy(game.enemies, container);
   setTimeout(function() {
@@ -118,7 +138,6 @@ function setUpGame(container, width) {
 
 function fadeOverlayOut(overlayjQuery, button) {
   emptyMatrixContainer.hide();
-  button.fadeOut(1000);
   overlayjQuery.fadeOut(2000);
 }
 
@@ -147,6 +166,7 @@ function animate() {
     showLoosingScreen();
   } else if (game.isWon()) {
     showWinningScreen();
+    currLevel++;
   } else {
     animationFrameId = requestAnimationFrame(animate);
   }

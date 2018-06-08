@@ -1,6 +1,6 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
 
-function BombermanGame(bombListener, fieldSize, boardMatrix, bomberman = new Bomberman(), enemies = enemies1) {
+function BombermanGame(bombListener, fieldSize, boardMatrix, enemies = enemies1, bomberman = new Bomberman()) {
   var tileSize = fieldSize / boardMatrix.length;
   this.field = new FieldMatrix(boardMatrix, tileSize);
   this.field.tileSize = tileSize;
@@ -240,11 +240,18 @@ BombermanGame.prototype.isWon = function() {
   return this.bomberman.isAlive === true && !this.areEnemiesAlive();
 };
 
-//////////////////////////////////////////////////////////////////
+//////////////////////////// GAME SETUP ///////////////////////////////////
 
 var enemies1 = [new SimpleEnemy(4, 5), new SimpleEnemy(11, 6), new SimpleEnemy(1, 10)];
 
-var enemies2 = [new SimpleEnemy(4, 5), new SimpleEnemy(11, 6), new SimpleEnemy(1, 10)];
+function getEnemiesAtRound(number) {
+  var enemiesArray = [];
+  for (var i = 0; i < coordinatesArray[number].length; i++) {
+    var currentCoordinates = coordinatesArray[number][i];
+    enemiesArray.push(new SimpleEnemy(currentCoordinates.x, currentCoordinates.y));
+  }
+  return enemiesArray;
+}
 
 /// Start display:
 var emptyMatrix = [
@@ -263,8 +270,9 @@ var emptyMatrix = [
   createBorderRow(13)
 ];
 
+var coordinates1 = [new TileIndizes(4, 5), new TileIndizes(11, 6), new TileIndizes(1, 10)];
 // acutal game:
-var fieldMatrix = [
+var matrix1 = [
   createBorderRow(13),
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
   createSecondRow(0, 1, 0, 1, 0, 0),
@@ -280,18 +288,24 @@ var fieldMatrix = [
   createBorderRow(13)
 ];
 
+var coordinates2 = [new TileIndizes(9, 1), new TileIndizes(11, 2), new TileIndizes(1, 11), new TileIndizes(8, 11)];
+
 var matrix2 = [
   createBorderRow(13),
   createRow(0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0),
-  createSecondRow(1, 1, 1, 1, 0, 0),
+  createSecondRow(0, 1, 1, 1, 0, 0),
   createRow(0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1),
   createSecondRow(0, 0, 1, 0, 1, 1),
-  createRow(0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0),
+  createRow(1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0),
   createSecondRow(0, 0, 1, 1, 1, 1),
-  createRow(0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0),
-  createSecondRow(0, 0, 0, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  createSecondRow(0, 0, 0, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createRow(1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0),
+  createSecondRow(0, 1, 1, 1, 0, 0),
+  createRow(1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1),
+  createSecondRow(0, 1, 1, 0, 0, 0),
+  createRow(0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1),
   createBorderRow(13)
 ];
+
+var boardMatrixArray = [matrix1, matrix2];
+
+var coordinatesArray = [coordinates1, coordinates2];
