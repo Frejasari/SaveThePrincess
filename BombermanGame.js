@@ -1,8 +1,8 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
 
-function BombermanGame(bombListener, fieldSize, field, bomberman = new Bomberman(), enemies = enemies1) {
-  this.field = field;
-  var tileSize = fieldSize / this.field.matrix.length;
+function BombermanGame(bombListener, fieldSize, boardMatrix, bomberman = new Bomberman(), enemies = enemies1) {
+  var tileSize = fieldSize / boardMatrix.length;
+  this.field = new FieldMatrix(boardMatrix, tileSize);
   this.field.tileSize = tileSize;
   this.bomberman = bomberman; // stores the bomberman, here only for first round!
   this.enemies = enemies; // array which stores the enemies that exist in this round
@@ -264,7 +264,8 @@ var emptyMatrix = [
 ];
 
 // acutal game:
-var fieldMatrix = new FieldMatrix(
+var fieldMatrix = [
+  createBorderRow(13),
   createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
   createSecondRow(0, 1, 0, 1, 0, 0),
   createRow(0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1),
@@ -275,8 +276,9 @@ var fieldMatrix = new FieldMatrix(
   createSecondRow(0, 1, 0, 1, 0, 1),
   createRow(0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1),
   createSecondRow(0, 1, 0, 0, 0, 0),
-  createRow(0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
-);
+  createRow(0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1),
+  createBorderRow(13)
+];
 
 var matrix2 = [
   createBorderRow(13),
