@@ -1,6 +1,6 @@
 // Simple Enemy
 
-function SimpleEnemy(startX, startY, tileSize = 55, speed = 50, size) {
+function SimpleEnemy(startX, startY, tileSize = 55, speed = 1, size) {
   MovingElement.call(this, size, startX, startY, tileSize, speed, getRandomDirection());
   this.isAtBorder = true;
 }

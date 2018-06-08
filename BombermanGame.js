@@ -33,14 +33,12 @@ function BombermanGame(
   this.bomberman.x = tileSize;
   this.bomberman.y = tileSize;
   this.bomberman.speed = 5;
-  // this.bomberman.speed = this.field.tileSize / this.bomberman.speed;
   this.bomberman.tileSize = tileSize;
   for (var i = 0; i < this.enemies.length; i++) {
     var enemy = this.enemies[i];
     enemy.size = tileSize;
     enemy.x = enemy.x * tileSize;
     enemy.y = enemy.y * tileSize;
-    enemy.speed = tileSize / enemy.speed;
     enemy.tileSize = tileSize;
   }
   this.bombListener = bombListener;
