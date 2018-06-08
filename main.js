@@ -30,7 +30,6 @@ var bombListener = {
 };
 
 $(document).ready(function() {
-  bombermanHTML = $("#bomberman");
   fieldContainer = $("#game-field");
   emptyMatrixContainer = $("#underlay-board");
   overlayContainer = $("#overlay-start-display");
@@ -62,7 +61,8 @@ function setUpUnderlay(container, tileSize) {
 function setUpGame(container, width) {
   game = new BombermanGame(bombListener, width, fieldMatrix);
   createGameBoard(game.field, container);
-  setBombermanCSSProperties(game.bomberman, bombermanHTML);
+  // setBombermanCSSProperties(game.bomberman, bombermanHTML);
+  createAndAppendBomberman(container);
   createAndAppendSimpleEnemy(game.enemies, container);
   setTimeout(function() {
     animate();
@@ -249,10 +249,16 @@ function createBoard(container, matrix, tileSize) {
 
 // Functions to create Bomberman
 
-function setBombermanCSSProperties(bomberman, bombermanHTML) {
-  console.log("createBomberman, bomberman: ", bomberman);
-  setDimensionOfSquarejQueryElement(bombermanHTML, bomberman.size);
-  setPositionOfjQueryCharacter(bombermanHTML, bomberman);
+function createAndAppendBomberman(container) {
+  container.append('<div id="bomberman"></div>');
+  bombermanHTML = $("#bomberman");
+  setBombermanCSSProperties();
+}
+
+function setBombermanCSSProperties() {
+  console.log("createBomberman, bomberman: ", game.bomberman);
+  setDimensionOfSquarejQueryElement(bombermanHTML, game.bomberman.size);
+  setPositionOfjQueryCharacter(bombermanHTML, game.bomberman);
 }
 
 // Functions to create simple Enemies
