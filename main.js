@@ -35,6 +35,9 @@ $(document).ready(function() {
   $("#start-btn").click(function() {
     setUpGame(fieldContainer, fieldContainer.width());
     fadeOverlayOut(overlayContainer, emptyMatrixContainer);
+    $(this)
+      .prop("onclick", null)
+      .off("click");
   });
 });
 
