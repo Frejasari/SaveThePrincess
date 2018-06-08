@@ -4,7 +4,6 @@
   font-weight: 300;
   letter-spacing: 0.1em;
   font-family: "Helvetica Neue", Helvetica, Arial, Helvetica, sans-serif;
-  /* font-family: "Lucida Grande", sans-serif; */
 }
 
 #container {
@@ -38,7 +37,7 @@
 
 #overlay-won-display,
 #overlay-lost-display {
-  z-index: 2;
+  z-index: 3;
 }
 
 .text {
@@ -74,27 +73,14 @@ button:focus {
   outline: none;
 }
 
-#underlay-board {
+.board {
   position: absolute;
-  background-color: bisque;
-  z-index: 3; /* Specify a stack order in case you're using a different order for other */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other */
   /* setting up flex-box */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
-  /* display: none; */
-}
-
-#game-field {
-  position: absolute;
-  background-color: bisque;
-  /* setting up flex-box */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  /* display: none; */
 }
 
 #bomberman {

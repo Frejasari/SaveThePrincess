@@ -30,7 +30,7 @@ var bombListener = {
 };
 
 $(document).ready(function() {
-  fieldContainer = $("#game-field");
+  fieldContainer = $("#game-board");
   emptyMatrixContainer = $("#underlay-board");
   overlayContainer = $("#overlay-start-display");
   lostContainer = $("#overlay-lost-display");
