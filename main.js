@@ -3,6 +3,11 @@
 var game;
 var bombermanHTML;
 var animationFrameId;
+var fieldContainer;
+var emptyMatrixContainer;
+var overlayContainer;
+var lostContainer;
+var wonContainer;
 var bombListener = {
   onBombExplosion: function(x, y, diedEnemies) {
     var jQueryElement = $("#" + x + "-" + y);
@@ -26,20 +31,29 @@ var bombListener = {
 
 $(document).ready(function() {
   bombermanHTML = $("#bomberman");
-  var fieldContainer = $("#game-field");
-  var emptyMatrixContainer = $("#underlay-board");
-  var overlayContainer = $("#overlay-start-display");
+  fieldContainer = $("#game-field");
+  emptyMatrixContainer = $("#underlay-board");
+  overlayContainer = $("#overlay-start-display");
+  lostContainer = $("#overlay-lost-display");
+  wonContainer = $("#overlay-won-display");
+
+  lostContainer.hide();
+  wonContainer.hide();
 
   setUpUnderlay(emptyMatrixContainer, emptyMatrixContainer.width() / 13);
 
   $("#start-btn").click(function() {
     setUpGame(fieldContainer, fieldContainer.width());
-    fadeOverlayOut(overlayContainer, emptyMatrixContainer);
+    fadeOverlayOut(overlayContainer, emptyMatrixContainer, this);
     $(this)
       .prop("onclick", null)
       .off("click");
   });
 });
+
+$("retry-btn").click(function() {});
+
+$("#next-btn").click(function() {});
 
 function setUpUnderlay(container, tileSize) {
   createBoard(container, emptyMatrix, tileSize);
@@ -101,9 +115,27 @@ function setUpGame(container, width) {
     });
   }, 2200);
 }
-function fadeOverlayOut(overlayjQuery, emptyMatrixjQuery) {
-  emptyMatrixjQuery.hide();
+
+function fadeOverlayOut(overlayjQuery, button) {
+  emptyMatrixContainer.hide();
+  button.fadeOut(1000);
   overlayjQuery.fadeOut(2000);
+}
+
+function fadeStartDisplayIn(overlayjQuery) {
+  emptyMatrixContainer.show();
+  fadeOverlayIn(overlayjQuery);
+}
+
+function fadeOverlayIn(overlayjQuery) {
+  overlayjQuery.fadeIn(2000);
+}
+
+function showWinningScreen() {
+  fadeOverlayIn(wonContainer);
+}
+function showLoosingScreen() {
+  fadeOverlayIn(lostContainer);
 }
 
 function animate() {
@@ -112,9 +144,9 @@ function animate() {
     moveBombermanVisually();
   }
   if (game.isLost()) {
-    console.log();
+    showLoosingScreen();
   } else if (game.isWon()) {
-    // DO STUFF When the game is won!
+    showWinningScreen();
   } else {
     animationFrameId = requestAnimationFrame(animate);
   }
