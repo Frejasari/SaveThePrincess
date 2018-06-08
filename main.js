@@ -291,34 +291,6 @@ function setPositionOfjQueryCharacter(jQueryCharacter, character) {
   jQueryCharacter.css("left", character.x);
 }
 
-/// Start display:
-var emptyMatrix = [
-  createBorderRow(13),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  createSecondRow(0, 0, 0, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  createSecondRow(0, 0, 0, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  createSecondRow(0, 0, 0, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  createSecondRow(0, 0, 0, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  createSecondRow(0, 0, 0, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  createBorderRow(13)
-];
-
-// acutal game:
-var fieldMatrix = new FieldMatrix(
-  createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
-  createSecondRow(0, 1, 0, 1, 0, 0),
-  createRow(0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1),
-  createSecondRow(0, 0, 1, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0),
-  createSecondRow(1, 0, 0, 0, 0, 0),
-  createRow(1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0),
-  createSecondRow(0, 1, 0, 1, 0, 1),
-  createRow(0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1),
-  createSecondRow(0, 1, 0, 0, 0, 0),
-  createRow(0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
-);
+function clearBoard(container) {
+  container.empty();
+}

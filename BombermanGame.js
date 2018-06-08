@@ -1,28 +1,6 @@
 /// creating defaults for first level! Maybe create a BombermanGame just with its level as input?
-var firstRoundEnemies = [new SimpleEnemy(4, 5), new SimpleEnemy(11, 6), new SimpleEnemy(1, 10)];
 
-var fieldMatrixMock = new FieldMatrix(
-  createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
-  createSecondRow(0, 1, 0, 1, 0, 0),
-  createRow(0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1),
-  createSecondRow(0, 0, 1, 0, 0, 0),
-  createRow(0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0),
-  createSecondRow(1, 0, 0, 0, 0, 0),
-  createRow(1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0),
-  createSecondRow(0, 1, 0, 1, 0, 1),
-  createRow(0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1),
-  createSecondRow(0, 1, 0, 0, 0, 0),
-  createRow(0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1),
-  10
-);
-
-function BombermanGame(
-  bombListener,
-  fieldSize,
-  field = fieldMatrixMock,
-  bomberman = new Bomberman(),
-  enemies = firstRoundEnemies
-) {
+function BombermanGame(bombListener, fieldSize, field, bomberman = new Bomberman(), enemies = enemies1) {
   this.field = field;
   var tileSize = fieldSize / this.field.matrix.length;
   this.field.tileSize = tileSize;
@@ -261,3 +239,57 @@ BombermanGame.prototype.areEnemiesAlive = function() {
 BombermanGame.prototype.isWon = function() {
   return this.bomberman.isAlive === true && !this.areEnemiesAlive();
 };
+
+//////////////////////////////////////////////////////////////////
+
+var enemies1 = [new SimpleEnemy(4, 5), new SimpleEnemy(11, 6), new SimpleEnemy(1, 10)];
+
+var enemies2 = [new SimpleEnemy(4, 5), new SimpleEnemy(11, 6), new SimpleEnemy(1, 10)];
+
+/// Start display:
+var emptyMatrix = [
+  createBorderRow(13),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createSecondRow(0, 0, 0, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createSecondRow(0, 0, 0, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createSecondRow(0, 0, 0, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createSecondRow(0, 0, 0, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createSecondRow(0, 0, 0, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createBorderRow(13)
+];
+
+// acutal game:
+var fieldMatrix = new FieldMatrix(
+  createRow(0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0),
+  createSecondRow(0, 1, 0, 1, 0, 0),
+  createRow(0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1),
+  createSecondRow(0, 0, 1, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0),
+  createSecondRow(1, 0, 0, 0, 0, 0),
+  createRow(1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0),
+  createSecondRow(0, 1, 0, 1, 0, 1),
+  createRow(0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1),
+  createSecondRow(0, 1, 0, 0, 0, 0),
+  createRow(0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
+);
+
+var matrix2 = [
+  createBorderRow(13),
+  createRow(0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+  createSecondRow(1, 1, 1, 1, 0, 0),
+  createRow(0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1),
+  createSecondRow(0, 0, 1, 0, 1, 1),
+  createRow(0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0),
+  createSecondRow(0, 0, 1, 1, 1, 1),
+  createRow(0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0),
+  createSecondRow(0, 0, 0, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createSecondRow(0, 0, 0, 0, 0, 0),
+  createRow(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  createBorderRow(13)
+];
