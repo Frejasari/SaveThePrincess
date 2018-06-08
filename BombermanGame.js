@@ -250,10 +250,14 @@ BombermanGame.prototype.isLost = function() {
 /// WON
 
 BombermanGame.prototype.areEnemiesAlive = function() {
+  var isEnemyAlive;
   this.enemies.forEach(function(enemy) {
-    if (enemy.isAlive) return false;
+    if (enemy.isAlive) {
+      isEnemyAlive = true;
+      return;
+    }
   });
-  return true;
+  return isEnemyAlive;
 };
 
 BombermanGame.prototype.isWon = function() {
