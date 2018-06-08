@@ -11,8 +11,18 @@
 
 <body>
   <section id="container">
-    <section id="overlay-start-display" class="screen">
+    <section id="overlay-start-display" class="screen overlay">
       <button id="start-btn">START GAME</button>
+    </section>
+    <section id="overlay-won-display" class="screen overlay">
+      <div class="text">You Won</div>
+      <button id="next-btn">NEXT LEVEL</button>
+      <button class="github-btn" onclick="window.open('https://github.com/Frejasari/SaveThePrincess')">Visit Github Repo</button>
+    </section>
+    <section id="overlay-lost-display" class="screen overlay">
+      <div class="text">You Lost</div>
+      <button id="retry-btn">RETRY</button>
+      <button class="github-btn" onclick="window.open('https://github.com/Frejasari/SaveThePrincess')">Visit Github Repo</button>
     </section>
     <section id="underlay-board" class="screen">
     </section>

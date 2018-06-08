@@ -1,3 +1,12 @@
+* {
+  color: white;
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  font-family: "Helvetica Neue", Helvetica, Arial, Helvetica, sans-serif;
+  /* font-family: "Lucida Grande", sans-serif; */
+}
+
 #container {
   position: relative;
   height: 95vh;
@@ -13,32 +22,62 @@
   height: 650px;
 }
 
-#overlay-start-display {
+.overlay {
   position: absolute;
   background-color: rgba(100, 100, 100, 0.8);
-  z-index: 3; /* Specify a stack order in case you're using a different order for other */
   font-size: 40px;
-  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* display: none; */
 }
 
-#start-btn {
+#overlay-start-display {
+  z-index: 4; /*Specify a stack order in case you're using a different order for other*/
+}
+
+#overlay-won-display,
+#overlay-lost-display {
+  z-index: 2;
+}
+
+.text {
+  margin-bottom: 50px;
+  font-size: 50px;
+}
+
+button {
   padding: 25px;
+  margin: 10px;
   border: 1px white solid;
+  border-radius: 3px;
   background-color: rgba(105, 105, 105);
-  color: white;
-  font-size: 40px;
-  /* width: 20vw; */
+}
+
+.github-btn {
+  background-color: rgba(130, 130, 130);
+  padding: 10px 25px;
+  font-size: 20px;
+}
+
+#next-btn,
+#retry-btn {
+  font-size: 35px;
+  padding: 20px 25px;
+}
+
+button:hover {
+  background-color: rgb(97, 97, 97);
+}
+
+button:focus {
+  outline: none;
 }
 
 #underlay-board {
   position: absolute;
   background-color: bisque;
-  z-index: 2; /* Specify a stack order in case you're using a different order for other */
-
+  z-index: 3; /* Specify a stack order in case you're using a different order for other */
   /* setting up flex-box */
   display: flex;
   flex-direction: row;
